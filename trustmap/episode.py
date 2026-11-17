@@ -24,6 +24,7 @@ from trustmap.house import NUM_ROOMS
 
 BETA_CONCENTRATION = 10.0  # Point 3c: n = alpha + beta = 10
 DEFAULT_LAMBDA = 0.5       # Point 3c: claimed-room mixture
+DEFAULT_MAX_DECISIONS = 3  # Point 6b: decision cap (4 = no budget, 2 = harsher)
 
 
 @dataclass(frozen=True)
@@ -35,6 +36,7 @@ class EpisodeConfig:
     lam:       probability that the claimed room is drawn uniformly instead of from the table.
     placement: "table" or "uniform" (uniform replaces the whole table by ones).
     targets:   target categories drawn from (all eight by default; one for debugging).
+    max_decisions: decision cap per episode (Point 6b).
     """
 
     rho: float
@@ -42,6 +44,7 @@ class EpisodeConfig:
     lam: float = DEFAULT_LAMBDA
     placement: str = "table"
     targets: tuple = field(default=TARGETS)
+    max_decisions: int = DEFAULT_MAX_DECISIONS
 
     def __post_init__(self):
         # rho = 1 would give alpha = 0, which is not a valid Beta distribution.
@@ -55,6 +58,9 @@ class EpisodeConfig:
             raise ValueError(f"placement must be one of {PLACEMENTS}")
         if not self.targets or any(t not in TARGETS for t in self.targets):
             raise ValueError(f"targets must be a non-empty subset of {TARGETS}")
+        # The start room is searched, so at most NUM_ROOMS - 1 decisions are possible.
+        if not 1 <= self.max_decisions <= NUM_ROOMS - 1:
+            raise ValueError(f"max_decisions must be between 1 and {NUM_ROOMS - 1}")
 
 
 @dataclass(frozen=True)
@@ -129,6 +135,11 @@ def generate_episode(house, config, rng):
     else:
         remaining = rooms[(rooms != claimed_room) & (rooms != start_room)]
         object_room = int(rng.choice(remaining, p=normalize(weights[remaining])))
+
+    # Point 5a: the object is never in the start room. The steps above already
+    # guarantee it; this check makes sure the rule can never break silently.
+    if object_room == start_room:
+        raise RuntimeError("object placed in the start room; the 3c recipe is broken")
 
     # Point 4a: row order shuffled every episode so a row position never
     # stands for a fixed room.
