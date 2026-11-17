@@ -28,4 +28,7 @@ On a machine with ROS 2 sourced, ROS's pytest plugins can break the run; disable
 - `trustmap/house.py`: house data and room-type draw (Points 3a, 3b)
 - `trustmap/episode.py`: episode generation recipe (Point 3c)
 - `trustmap/observation.py`: observation rows and comparison-variant masks (Point 4)
+- `trustmap/search.py`: room-level search rules: action mask, episode end, reward (Points 5, 6)
+- `trustmap/optimum.py`: exact optimum by value iteration over current room × searched set
+- `trustmap/metrics.py`: success, SPL, success on the first decision (Point 6b)
 - `tests/`: checks against the worked examples in `docs/DECISIONS.md`
