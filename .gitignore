@@ -10,3 +10,5 @@ checkpoints/
 *.pt
 *.zip
 data/houses/
+*.egg-info/
+.pytest_cache/
