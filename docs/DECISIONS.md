@@ -1,6 +1,6 @@
 # COE750 Project Foundations: "Should the Robot Trust Its Map?"
 
-Source of truth for every project decision (last updated 2026-11-18, 22:20 Beirut time). COE750 is the master's section of COE550 (same course, Dr. Fouad Trad). This file is edited only from the claude.ai "RL" Project chat, where decisions are made; Claude Code reads it and never edits it. A copy is kept in the claude.ai Project as rl-project-foundations.md.
+Source of truth for every project decision (last updated 2026-11-18, 22:25 Beirut time). COE750 is the master's section of COE550 (same course, Dr. Fouad Trad). This file is edited only from the claude.ai "RL" Project chat, where decisions are made; Claude Code reads it and never edits it. A copy is kept in the claude.ai Project as rl-project-foundations.md.
 
 ## How we work
 
@@ -253,7 +253,7 @@ Q4, camera and object position. On arrival at a viewpoint the target is detected
 
 Q5, development house. The development house is generator seed 0, the first house of the training pool, so development runs through the same code that builds the whole pool. Claude Code plots it and Khaled checks it by eye; if it is odd (for example cramped), the next few seeds are inspected and one of them is used instead, still from the generator.
 
-Robot. The Gazebo robot is the minimal two-wheeled differential-drive robot with lidar from Point 2 (no TurtleBot). Its footprint is a circle of radius 0.20 m, which sets the wall inflation above. Wheel base, lidar model and speed limits are settled when the Gazebo part starts, since they do not affect training.
+Robot. The Gazebo robot is the minimal two-wheeled differential-drive robot with lidar from Point 2 (no TurtleBot). Its footprint is a circle of radius 0.20 m, which sets the wall inflation above. Wheel base, lidar model and speed limits are settled when the Gazebo part starts, since they do not affect training. Two driven wheels plus casters were kept over a four-wheeled robot (Khaled asked, 2026-11-18): casters give the same static stability, while four-wheel skid steering slides when turning, judders when turning on the spot in Gazebo and makes odometry drift, which adds navigation error with no gain for the trust question. The robot also carries an RGB camera for the demo only (Khaled's choice, 2026-11-18): it streams the robot's view and lets Khaled record pictures and videos whenever he wants, but it feeds no decision, detection or metric; detection stays the virtual camera of Q4, so camera perception errors can never mix with map errors.
 
 ### Agreements that follow from these decisions
 
