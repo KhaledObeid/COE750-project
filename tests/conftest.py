@@ -17,3 +17,16 @@ def two_bedroom_house():
         [9.0, 7.0, 4.0, 2.0, 0.0],
     ])
     return House(room_types=("kitchen", "living", "bathroom", "bedroom", "bedroom"), distances=d)
+
+
+def random_house(rng):
+    """Test-only house: 5 random room centers in a 12 m x 10 m box, straight-line distances.
+
+    Not a generated house (the Point 3a generator waits on OPEN_QUESTIONS Q2-Q5);
+    it only gives the solver and baselines many different distance tables.
+    """
+    from trustmap.house import draw_room_types
+
+    pts = rng.uniform((0, 0), (12, 10), size=(5, 2))
+    d = np.linalg.norm(pts[:, None, :] - pts[None, :, :], axis=-1)
+    return House(room_types=draw_room_types(rng), distances=d)
