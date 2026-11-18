@@ -2,7 +2,7 @@
 
 Written by Claude Code only. Updated at the end of every coding session.
 
-## Current state (2026-11-17)
+## Current state (2026-11-18)
 
 Built, in the `trustmap` package:
 
@@ -13,19 +13,21 @@ Built, in the `trustmap` package:
 - `search.py` (Points 5, 6): `RoomSearch`, the room-level rules shared by the future Gymnasium env and the Gazebo runner. It provides the action mask over rows (unsearched rooms only), automatic success when the chosen room holds the target, reward −distance / house max distance, the 3-decision cap with a −1 failure penalty, and γ = 1 (plain sum).
 - `optimum.py` (exact optimum): value iteration over current room × searched set (160 states) with the Point 6 reward and the cap. The reset belief puts r on the claimed room and spreads 1 − r over the three other non-start rooms by habit. `solve_episode` uses the true r by default (Q6).
 - `metrics.py` (6b): success, SPL (failures count 0; shortest = planned distance from the start room to the object's room), success on the first decision, decisions, meters.
+- `grid.py`, `planning.py`, `camera.py` (3a, Agreements): the geometry layer both simulators share. Occupancy grid in ROS OccupancyGrid layout, obstacle inflation, A* (4- or 8-connected, no corner cutting), Dijkstra with early stop, the 5×5 planned-distance table between viewpoints, and the virtual camera (view cone, 1.5 m range, line-of-sight ray cast). Every undecided number (cell size, connectivity, inflation radius, field-of-view angle) is a required argument with no default (Q3, Q4).
 
 Input checks that do not change behavior inside the decided ranges: ρ in [0, 1), κ > 0, cap between 1 and 4.
 
-Tested with `pytest` (27 tests pass on Python 3.14 and 3.10). The tests cover the DECISIONS.md worked numbers for 3b/3c, the observation layout and masks, masking/success/failure/reward rules, the metrics, and a brute-force check that V* equals the best of every possible room order played through `RoomSearch` for caps 2, 3 and 4. All tests use a made-up distance table, not a generated house.
+Tested with `pytest` (39 tests pass on Python 3.14). The tests cover the DECISIONS.md worked numbers for 3b/3c, the observation layout and masks, masking/success/failure/reward rules, the metrics, and a brute-force check that V* equals the best of every possible room order played through `RoomSearch` for caps 2, 3 and 4, plus geometry checks: A* path lengths, no corner cutting, A* equal to Dijkstra on 30 random grids, a symmetric distance table, unreachable rooms rejected, ray cells, line of sight and the view cone. All tests use made-up distance tables and tiny hand-made grids, not generated houses.
 
-Not built because it is not decided: the house generator, occupancy grid, A*, viewpoints and virtual camera (Q2–Q5); decision regret (Q6). Not built because Point 7 is not locked: the Gymnasium environment, the policy network and PPO training. Baselines are still only "proposed", so they are not built either.
+Not built because it is not decided: the house generator itself (room layout, doors, viewpoints, object position inside a room; Q2–Q5) and decision regret (Q6). The grid, A* and camera are ready to receive the Q3/Q4 numbers. Not built because Point 7 is not locked: the Gymnasium environment, the policy network and PPO training. Baselines are still only "proposed", so they are not built either.
 
 ## Next coding step
 
-The house generator (Point 3a), once Q2–Q3 are answered in the RL chat; regret once Q6 is answered. After Point 7, wrap `RoomSearch` and the observation builder in a Gymnasium environment.
+The house generator (Point 3a), once Q2–Q5 are answered in the RL chat: it draws the layout, rasterizes it into an `OccupancyGrid`, picks viewpoints, and calls `distance_table`, then a quick plot to check houses by eye; regret once Q6 is answered. After Point 7, wrap `RoomSearch` and the observation builder in a Gymnasium environment.
 
 ## Log
 
 - 2026-11-17: repository set up from the claude.ai RL Project chat.
 - 2026-11-17: Points 3b, 3c and 4 implemented and tested; generator questions logged.
 - 2026-11-17: Points 5 and 6 (masking, episode end, reward, cap), exact optimum and 6b metrics implemented and tested; Q1 resolved, Q6 (regret definition) added.
+- 2026-11-18: shared geometry layer (grid, A*, distance table, virtual camera) with undecided numbers as required arguments; Q3/Q4 updated.

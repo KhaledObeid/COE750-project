@@ -23,6 +23,7 @@ Format for each entry: date, file and function affected, the question, the optio
 - Affects: the occupancy grid and planned-distance table inside the generator, and the shared A* used by both simulators.
 - Question: grid cell size and wall thickness; whether A* moves in 4 or 8 directions (8 directions with diagonal cost √2 gives shorter, more realistic lengths); whether walls are inflated by the robot radius before planning, and by how much; where each room's viewpoint is (for example the free cell nearest the room center).
 - Recommendation: 0.05 m cells, 8-connected A*, inflate by the robot radius used in Gazebo, viewpoint at the free cell nearest the room center.
+- Update 2026-11-18: `trustmap/grid.py` and `trustmap/planning.py` now exist with cell size, connectivity and inflation radius as required arguments (no defaults), so answering Q3 only fills in numbers. Two small rules were implemented provisionally and can be flipped if the RL chat disagrees: (i) 8-connected moves may not cut a wall corner (a diagonal step needs both side cells free); (ii) inflation blocks every cell whose center is within the radius of a blocked cell's center. Speed, pure Python: one 5×5 distance table for a 12 m × 10 m house takes about 1.8 s at 0.05 m cells and 0.4 s at 0.10 m cells, so precomputing the ~5,400 pool houses once takes about 2.8 h or 40 min. Either is acceptable since it runs once and is saved; 0.10 m is worth considering if Nav2's map resolution allows it.
 - Status: open.
 
 ### Q4 (2026-11-17): virtual camera and object position inside a room
@@ -31,6 +32,7 @@ Format for each entry: date, file and function affected, the question, the optio
 - Question: the camera's field-of-view angle; the robot's heading on arrival at a viewpoint (fixed, facing the room center, or a 360° turn); where the target object sits inside its room. This matters because the exact optimum assumes that searching the object's room always finds it ("detection is deterministic"), so the object must always be visible from the viewpoint within about 1.5 m.
 - Options: (a) a 360° look at the viewpoint and the object placed within 1.5 m with clear line of sight; (b) a fixed field of view and the object placed inside the view cone.
 - Recommendation: (a), because it guarantees detection in the object's room and keeps the optimum exact.
+- Update 2026-11-18: `trustmap/camera.py` now exists: view cone, range (1.5 m from the Agreements) and line-of-sight ray cast; the field-of-view angle is a required argument (2π = 360° look). Two rules were implemented provisionally: (i) the target's own cell is not checked for walls, so an object standing on furniture (a blocked cell) can still be seen if nothing else is in the way; (ii) a ray passing exactly through a cell corner checks both cells beside the corner. Still needed: the angle, the heading on arrival, and the object placement rule.
 - Status: open.
 
 ### Q5 (2026-11-17): the single development house

@@ -31,4 +31,7 @@ On a machine with ROS 2 sourced, ROS's pytest plugins can break the run; disable
 - `trustmap/search.py`: room-level search rules: action mask, episode end, reward (Points 5, 6)
 - `trustmap/optimum.py`: exact optimum by value iteration over current room × searched set
 - `trustmap/metrics.py`: success, SPL, success on the first decision (Point 6b)
+- `trustmap/grid.py`: occupancy grid and obstacle inflation, shared by the 2D simulator and Gazebo
+- `trustmap/planning.py`: A* and the room-to-room planned-distance table (Point 3a)
+- `trustmap/camera.py`: virtual camera, view cone plus line-of-sight ray casting
 - `tests/`: checks against the worked examples in `docs/DECISIONS.md`
