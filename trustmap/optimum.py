@@ -21,6 +21,8 @@ Bellman optimality equation, with gamma = 1 (6c):
   Finding the target ends the episode with no further reward.
 """
 
+import itertools
+
 import numpy as np
 
 from trustmap.house import NUM_ROOMS
@@ -117,3 +119,104 @@ def solve_episode(house, episode, max_decisions, p_claim_correct=None):
     """Optimum for one episode; p_claim_correct defaults to the true r."""
     p = episode.r if p_claim_correct is None else p_claim_correct
     return OptimalSolution(house, object_belief(episode, p), max_decisions)
+
+
+# ------------------------------------------------------------------------
+# Fixed search orders and the trust threshold c* (Point 9c, E2).
+#
+# Detection is perfect, so the only thing a failed search tells the robot is
+# "not here" (8a). Every policy in one episode is therefore a fixed order of
+# rooms, and its expected return is
+#
+#   - sum over the i-th search of  P(still not found before it) * d(prev, k_i) / D
+#   - FAILURE_PENALTY * P(not in any searched room)
+#
+# Each of those probabilities is a sum of room probabilities, and every room
+# probability is a straight line in r (r on the claimed room, (1 - r) times a
+# fixed habit share on the others). So the expected return of each order is a
+# straight line in r, and the optimum is the highest of these lines.
+
+
+def search_orders(start_room, max_decisions):
+    """Every order of `max_decisions` rooms out of the unsearched ones (24 with the cap of 3)."""
+    rooms = [k for k in range(NUM_ROOMS) if k != start_room]
+    return list(itertools.permutations(rooms, min(max_decisions, len(rooms))))
+
+
+def order_lines(house, episode, max_decisions):
+    """Each search order's expected return as a line in p = P(claim correct).
+
+    Returns (orders, intercept, slope): the return of order j at p is
+    intercept[j] + slope[j] * p.
+    """
+    d = house.distances / house.max_distance
+    orders = search_orders(episode.start_room, max_decisions)
+    ends = []
+    for p in (0.0, 1.0):
+        belief = object_belief(episode, p)
+        values = []
+        for order in orders:
+            not_found = 1.0  # P(object not in any room searched so far)
+            prev = episode.start_room
+            total = 0.0
+            for k in order:
+                total -= not_found * d[prev, k]
+                not_found -= belief[k]
+                prev = k
+            total -= FAILURE_PENALTY * max(not_found, 0.0)
+            values.append(total)
+        ends.append(np.array(values))
+    return orders, ends[0], ends[1] - ends[0]
+
+
+def order_returns(house, episode, max_decisions, p_claim_correct):
+    """Expected return of every search order, for each value in p_claim_correct.
+
+    Returns (orders, returns) with returns shaped (number of p values, number of orders).
+    """
+    p = np.atleast_1d(np.asarray(p_claim_correct, dtype=float))
+    orders, intercept, slope = order_lines(house, episode, max_decisions)
+    return orders, intercept[None, :] + p[:, None] * slope[None, :]
+
+
+def _follow(intercept, slope, claim_first, p, tolerance=1e-12):
+    returns = intercept[None, :] + np.atleast_1d(p)[:, None] * slope[None, :]
+    return returns[:, claim_first].max(axis=1) >= returns[:, ~claim_first].max(axis=1) - tolerance
+
+
+def follows_claim(house, episode, max_decisions, p_claim_correct):
+    """True where the optimum's first search is the claimed room (ties count as following)."""
+    orders, intercept, slope = order_lines(house, episode, max_decisions)
+    claim_first = np.array([o[0] == episode.claimed_room for o in orders])
+    return _follow(intercept, slope, claim_first, np.asarray(p_claim_correct, dtype=float))
+
+
+def confidence_threshold(house, episode, max_decisions, grid_points=2001):
+    """c* of one episode: the reliability at which the optimum starts searching the claimed room first.
+
+    Everything except r is kept as drawn (house, start room, claimed room,
+    target). Returns None when the optimum never switches: it follows the
+    claim for every r, for none, or only at r = 1 as a tie. If it switches more than once, c* is the
+    last switch, above which it always follows. The switch is first located on
+    a grid of r values and then narrowed down by bisection to about 1e-12.
+    """
+    orders, intercept, slope = order_lines(house, episode, max_decisions)
+    claim_first = np.array([o[0] == episode.claimed_room for o in orders])
+    r = np.linspace(0.0, 1.0, grid_points)
+    follow = _follow(intercept, slope, claim_first, r)
+    if not follow[-1] or follow.all():
+        return None
+    i = int(np.flatnonzero(~follow)[-1])  # last grid r where it does not follow
+    lo, hi = float(r[i]), float(r[i + 1])
+    for _ in range(40):  # bisection: halve the interval that contains the switch
+        mid = (lo + hi) / 2.0
+        if _follow(intercept, slope, claim_first, mid)[0]:
+            hi = mid
+        else:
+            lo = mid
+    if hi >= 1.0 - 1e-9:
+        # The claim only ties at r = 1: some room lies exactly on a shortest path to
+        # the claimed room, so searching it first is free and strictly better for
+        # every r < 1. The optimum never really switches, so there is no c*.
+        return None
+    return hi

@@ -106,3 +106,28 @@ def test_q_learning_reaches_the_optimum(two_bedroom_house):
         assert q_learned[best] == pytest.approx(q_star[best], abs=0.02)
         # Rarely chosen rooms are only tried through epsilon, so they are noisier.
         assert np.allclose(q_learned[allowed], q_star[allowed], atol=0.1)
+
+
+def test_fixed_order_lines_match_value_iteration_and_c_star():
+    # Point 9c machinery: the best fixed-order line equals V*, and c* is where
+    # the optimum's first choice switches to the claimed room.
+    from conftest import random_house
+    from trustmap.optimum import confidence_threshold, follows_claim, order_returns
+
+    rng = np.random.default_rng(11)
+    found = 0
+    for _ in range(300):
+        house = random_house(rng)
+        ep = generate_episode(house, EpisodeConfig(rho=float(rng.uniform(0, 0.8)), kappa=1.0), rng)
+        _, ret = order_returns(house, ep, 3, ep.r)
+        sol = solve_episode(house, ep, 3)
+        assert ret.max() == pytest.approx(sol.start_value(ep.start_room), abs=1e-12)
+        assert follows_claim(house, ep, 3, ep.r)[0] == (sol.best_room(ep.start_room, 1 << ep.start_room) == ep.claimed_room)
+        c_star = confidence_threshold(house, ep, 3)
+        if c_star is None:
+            continue
+        found += 1
+        assert 0.0 < c_star < 1.0
+        assert follows_claim(house, ep, 3, min(1.0, c_star + 1e-6))[0]
+        assert not follows_claim(house, ep, 3, max(0.0, c_star - 1e-6))[0]
+    assert found > 250
