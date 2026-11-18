@@ -9,6 +9,7 @@ dependencies = ["numpy>=1.24"]
 dev = ["pytest>=7"]
 # Point 7: Gymnasium environment and MaskablePPO training (CPU only).
 rl = ["gymnasium>=1.0", "stable-baselines3>=2.3", "sb3-contrib>=2.3", "torch>=2.2"]
+plot = ["matplotlib>=3.7"]
 
 [build-system]
 requires = ["setuptools>=61"]
