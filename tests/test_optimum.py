@@ -65,3 +65,44 @@ def test_perfect_map_goes_straight_to_claim(two_bedroom_house):
     assert sol.best_room(ep.start_room, start_bits) == ep.claimed_room
     d = two_bedroom_house.distances[ep.start_room, ep.claimed_room] / two_bedroom_house.max_distance
     assert sol.start_value(ep.start_room) == pytest.approx(-d)
+
+
+def test_value_iteration_matches_brute_force_on_thousands_of_episodes():
+    # Point 8c check 1: on a few thousand random episodes in random houses, the
+    # optimum must equal the best of all 24 three-room search orders.
+    from conftest import random_house
+
+    rng = np.random.default_rng(8)
+    for i in range(2000):
+        house = random_house(rng)
+        cfg = EpisodeConfig(rho=float(rng.uniform(0, 0.8)), kappa=1.0)
+        ep = generate_episode(house, cfg, rng)
+        belief = object_belief(ep, ep.r)
+        sol = solve_episode(house, ep, 3)
+        unsearched = [k for k in range(5) if k != ep.start_room]
+        orders = list(itertools.permutations(unsearched, 3))
+        assert len(orders) == 24
+        best = max(expected_return_of_order(house, ep, order, 3, belief) for order in orders)
+        assert sol.start_value(ep.start_room) == pytest.approx(best, abs=1e-9)
+
+
+def test_q_learning_reaches_the_optimum(two_bedroom_house):
+    # Point 8c check 2 (E0): tabular Q-learning converges to the value-iteration
+    # Q-values at the start state and picks the same first room.
+    from trustmap.qlearning import q_learning
+
+    rng = np.random.default_rng(9)
+    cfg = EpisodeConfig(rho=0.4, kappa=1.0)
+    for i in range(3):
+        ep = generate_episode(two_bedroom_house, cfg, rng)
+        sol = solve_episode(two_bedroom_house, ep, 3)
+        Q = q_learning(two_bedroom_house, ep, 3, num_episodes=20_000, seed=i)
+        bits = 1 << ep.start_room
+        q_star = sol.q_values(ep.start_room, bits)
+        allowed = np.isfinite(q_star)
+        best = sol.best_room(ep.start_room, bits)
+        q_learned = Q[ep.start_room, bits]
+        assert int(np.argmax(np.where(allowed, q_learned, -np.inf))) == best
+        assert q_learned[best] == pytest.approx(q_star[best], abs=0.02)
+        # Rarely chosen rooms are only tried through epsilon, so they are noisier.
+        assert np.allclose(q_learned[allowed], q_star[allowed], atol=0.1)
