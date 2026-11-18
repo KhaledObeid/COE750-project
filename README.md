@@ -14,13 +14,29 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
+For training (Point 7) also install the RL extra. On Linux, install the CPU build of PyTorch first so pip does not download the large GPU build; on Windows the default build is already CPU-only.
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu   # Linux only
+pip install -e ".[dev,rl]"
+```
+
+## Train and evaluate
+
+```bash
+python -m trustmap.train --variant conf --seed 0          # variants: conf, binary, noprior
+python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf
+```
+
+Each run writes `config.json`, `validation_curve.csv` (the learning curve), `best_model.zip` (lowest validation regret) and `final_model.zip` under `runs/`. Until the house generator exists, both commands use stand-in "smoke" houses (`trustmap/smoke_houses.py`), which are for debugging and timing only.
+
 ## Run the tests
 
 ```bash
 python -m pytest
 ```
 
-On a machine with ROS 2 sourced, ROS's pytest plugins can break the run; disable them with `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest`.
+On a machine with ROS 2 sourced, ROS's pytest plugins and Python path can break the run; use `PYTHONPATH= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest` (the same `PYTHONPATH=` prefix helps for training). Tests for the environment are skipped when the RL extra is not installed.
 
 ## Code layout
 
@@ -30,8 +46,15 @@ On a machine with ROS 2 sourced, ROS's pytest plugins can break the run; disable
 - `trustmap/observation.py`: observation rows and comparison-variant masks (Point 4)
 - `trustmap/search.py`: room-level search rules: action mask, episode end, reward (Points 5, 6)
 - `trustmap/optimum.py`: exact optimum by value iteration over current room × searched set
-- `trustmap/metrics.py`: success, SPL, success on the first decision (Point 6b)
+- `trustmap/metrics.py`: success, SPL, success on the first decision (Point 6b), decision regret (Point 8b)
 - `trustmap/grid.py`: occupancy grid and obstacle inflation, shared by the 2D simulator and Gazebo
 - `trustmap/planning.py`: A* and the room-to-room planned-distance table (Point 3a)
 - `trustmap/camera.py`: virtual camera, view cone plus line-of-sight ray casting
+- `trustmap/baselines.py`: random, nearest-unexplored, greedy map follower, Bayes-nominal (Point 8d)
+- `trustmap/qlearning.py`: tabular Q-learning for the E0 sanity check (Point 8c)
+- `trustmap/env.py`: Gymnasium environment with `action_masks()` (Point 7)
+- `trustmap/ppo.py`: MaskablePPO settings and network (Points 7b, 7c)
+- `trustmap/train.py`: training with validation-regret checkpoints (Point 7d)
+- `trustmap/evaluation.py`, `trustmap/evaluate.py`: paired evaluation of all methods on fixed test episodes
+- `trustmap/smoke_houses.py`: stand-in houses until the generator exists (not for results)
 - `tests/`: checks against the worked examples in `docs/DECISIONS.md`
