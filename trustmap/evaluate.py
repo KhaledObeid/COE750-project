@@ -8,9 +8,9 @@ For each rho, one fixed list of test episodes is drawn and every method plays
 exactly those episodes (paired evaluation). The optimum (8a) is the regret-0
 reference line, so it is not listed.
 
-PLACEHOLDERS (Point 9, not locked): the rho values, the number of episodes per
-rho and the seed are command-line arguments whose defaults follow the
-proposal (rho in {0, 0.2, 0.4, 0.6, 0.8}, 200 episodes each).
+This is the quick check used during development (default 200 episodes per
+rho). The reported E1-E3 results come from `python -m trustmap.e1` (and e2, e3),
+which use the full Point 9b test set of 5,000 episodes per rho.
 """
 
 import argparse

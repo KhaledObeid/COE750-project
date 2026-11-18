@@ -38,6 +38,16 @@ def make_episodes(houses, config, num_episodes, seed, rho_range=None):
     return out
 
 
+def make_test_episodes(houses, config, per_house, seed):
+    """Test set of Point 9b: exactly `per_house` episodes in every house, in house order.
+
+    Each episode has its own target, claim, confidence and start room. The
+    same seed is used for every method and every rho (paired evaluation).
+    """
+    rng = np.random.default_rng(seed)
+    return [(house, generate_episode(house, config, rng)) for house in houses for _ in range(per_house)]
+
+
 def solve_all(episodes, max_decisions):
     """Optimum (true r, 8a) for every episode; about 5 ms each, so do it once and reuse."""
     return [solve_episode(house, ep, max_decisions) for house, ep in episodes]
