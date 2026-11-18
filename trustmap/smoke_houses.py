@@ -10,9 +10,7 @@ A* paths. Results obtained on them must never be reported.
 
 import numpy as np
 
-from trustmap.house import TEST_SEEDS, TRAIN_SEEDS, VALIDATION_SEEDS, House, draw_room_types
-
-POOLS = {"train": TRAIN_SEEDS, "validation": VALIDATION_SEEDS, "test": TEST_SEEDS}
+from trustmap.house import POOL_SEEDS, House, draw_room_types
 
 
 def random_house(rng, seed=None):
@@ -27,4 +25,4 @@ def smoke_house(seed):
 
 def smoke_pool(name):
     """Stand-in pool with the same seed ranges as the real pools (3a)."""
-    return [smoke_house(s) for s in POOLS[name]]
+    return [smoke_house(s) for s in POOL_SEEDS[name]]

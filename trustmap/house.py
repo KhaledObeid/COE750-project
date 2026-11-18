@@ -23,6 +23,7 @@ FIFTH_ROOM_PROBABILITIES = {"bedroom": 0.50, "office": 0.25, "dining": 0.25}
 TRAIN_SEEDS = range(0, 5_000)
 VALIDATION_SEEDS = range(100_000, 100_200)
 TEST_SEEDS = range(200_000, 200_200)
+POOL_SEEDS = {"train": TRAIN_SEEDS, "validation": VALIDATION_SEEDS, "test": TEST_SEEDS}
 
 
 def draw_room_types(rng):
