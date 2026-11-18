@@ -82,7 +82,7 @@ Gazebo:
 - `trustmap/policy_export.py`: numpy copy of a trained policy for ROS's Python
 - `trustmap/gazebo_runner.py`, `gazebo/launch/house.launch.py`, `gazebo/config/`: runner, launch file, bridge and Nav2 settings
 
-Other: `trustmap/plot_house.py` (house plots), `trustmap/smoke_houses.py` (stand-in houses for debugging only), `report/` (IEEE LaTeX report), `tests/`.
+Other: `trustmap/animate_episode.py` (2D episode animation, the backup demo: `python -m trustmap.animate_episode --house 200000 --episode 1 --policy follower --out demo.gif`), `trustmap/plot_house.py` (house plots), `trustmap/smoke_houses.py` (stand-in houses for debugging only), `report/` (IEEE LaTeX report), `tests/`.
 
 ## License and acknowledgements
 
