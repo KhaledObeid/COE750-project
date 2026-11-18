@@ -34,7 +34,7 @@ def main():
     p.add_argument("--rho", type=float, nargs="+", default=[0.0, 0.2, 0.4, 0.6, 0.8])
     p.add_argument("--episodes", type=int, default=200)
     p.add_argument("--seed", type=int, default=TEST_SEED)
-    p.add_argument("--houses", choices=("smoke", "pool"), default="smoke")
+    p.add_argument("--houses", choices=("pool", "smoke"), default="pool")
     a = p.parse_args()
     if len(a.model) != len(a.variant):
         p.error("give one --variant per --model")

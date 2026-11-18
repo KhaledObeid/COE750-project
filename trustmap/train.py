@@ -35,6 +35,7 @@ from trustmap.env import TrustMapEnv
 from trustmap.evaluation import evaluate, make_episodes, solve_all, summarize
 from trustmap.observation import Variant
 from trustmap.ppo import NUM_ENVS, POLICY_KWARGS, PPO_SETTINGS, PPOPolicy
+from trustmap.pool import load_pool
 from trustmap.smoke_houses import smoke_pool
 
 TOTAL_DECISIONS = 1_000_000  # 7d
@@ -50,11 +51,10 @@ VARIANTS = {"conf": Variant.CONF, "binary": Variant.BINARY, "noprior": Variant.N
 
 
 def load_houses(source, pool):
+    """'pool' = the generated, saved house pool (3a); 'smoke' = stand-in houses for debugging only."""
     if source == "smoke":
         return smoke_pool(pool)
-    raise NotImplementedError(
-        "the Point 3a house generator is not built yet (OPEN_QUESTIONS Q2-Q5); use --houses smoke"
-    )
+    return load_pool(pool)
 
 
 class ValidationCallback(BaseCallback):
@@ -100,7 +100,7 @@ class ValidationCallback(BaseCallback):
         return True
 
 
-def train(variant, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table", houses="smoke",
+def train(variant, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table", houses="pool",
           total_decisions=TOTAL_DECISIONS, eval_every=EVAL_EVERY, validation_episodes=VALIDATION_EPISODES,
           out_root="runs", verbose=1):
     torch.set_num_threads(1)  # the network is tiny; one thread is faster and lets runs share the CPU
@@ -147,8 +147,9 @@ def main():
     p.add_argument("--kappa", type=float, default=1.0)
     p.add_argument("--lam", type=float, default=DEFAULT_LAMBDA)
     p.add_argument("--placement", choices=("table", "uniform"), default="table")
-    p.add_argument("--houses", choices=("smoke", "pool"), default="smoke",
-                   help="'smoke' = stand-in houses (timing/debugging only); 'pool' needs the 3a generator")
+    p.add_argument("--houses", choices=("pool", "smoke"), default="pool",
+                   help="'pool' = generated house pools (build once: python -m trustmap.pool); "
+                        "'smoke' = stand-in houses for debugging only")
     p.add_argument("--total-decisions", type=int, default=TOTAL_DECISIONS)
     p.add_argument("--eval-every", type=int, default=EVAL_EVERY)
     p.add_argument("--validation-episodes", type=int, default=VALIDATION_EPISODES)
