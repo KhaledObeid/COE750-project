@@ -33,7 +33,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from trustmap.episode import DEFAULT_LAMBDA, DEFAULT_MAX_DECISIONS, EpisodeConfig
 from trustmap.env import TrustMapEnv
 from trustmap.evaluation import evaluate, make_episodes, solve_all, summarize
-from trustmap.observation import Variant
+from trustmap.observation import VARIANT_KEYS, Variant
 from trustmap.ppo import NUM_ENVS, POLICY_KWARGS, PPO_SETTINGS, PPOPolicy
 from trustmap.pool import load_pool
 from trustmap.smoke_houses import smoke_pool
@@ -50,7 +50,7 @@ TRAIN_RHO_RANGE = (0.0, 0.8)
 VALIDATION_EPISODES = 1000
 VALIDATION_SEED = 100_000
 
-VARIANTS = {"conf": Variant.CONF, "binary": Variant.BINARY, "noprior": Variant.NOPRIOR}
+VARIANTS = VARIANT_KEYS
 
 
 def run_name(variant_key, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table"):

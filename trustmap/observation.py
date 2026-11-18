@@ -38,6 +38,9 @@ class Variant(Enum):
     NOPRIOR = "PPO-NoPrior"  # claim and confidence always 0 ("commonsense only")
 
 
+# Short names used on the command line and in run folder names.
+VARIANT_KEYS = {"conf": Variant.CONF, "binary": Variant.BINARY, "noprior": Variant.NOPRIOR}
+
 _ZEROED_COLUMNS = {
     Variant.CONF: (),
     Variant.BINARY: ("confidence",),
