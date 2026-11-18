@@ -20,13 +20,15 @@ Tested with `pytest`: 59 tests pass in the project `.venv` (Python 3.14, torch 2
 
 Timing (7d): a full 1M-decision PPO-Conf run took 9.8 min including 21 validation checks (on stand-in houses; the per-decision cost does not depend on the houses), below the 20-minute line, so 5 seeds per main variant stands.
 
+First real run (2026-11-18, under the Q7 placeholders, one seed, so not a reported result): PPO-Conf seed 0 on the generated pool, 1M decisions in 9.7 min, best validation regret 0.37 m (11.4 m untrained). On 200 test episodes per ρ, regret in meters for random / nearest / greedy follower / PPO-Conf: ρ 0: 13.4 / 8.0 / 0.0 / 0.01; ρ 0.2: 10.8 / 5.6 / 0.73 / 0.23; ρ 0.4: 10.1 / 4.5 / 1.88 / 0.37; ρ 0.6: 8.8 / 3.3 / 3.80 / 0.44; ρ 0.8: 7.6 / 3.4 / 6.76 / 0.60 (Bayes-nominal 0 at κ = 1). PPO clearly beats random, which is the go/no-go criterion, and the greedy follower falls below the nearest-room explorer between ρ 0.4 and 0.6 (the H1 crossover shape). The run is in `runs/` (not committed).
+
 Placeholders, not decided (OPEN_QUESTIONS Q7): training ρ ~ U[0, 0.8] per episode; 1,000 validation episodes at seed 100,000; greedy actions at evaluation; 200 test episodes per ρ at seed 200,000. Bayes-nominal falls back to the nearest room in the practically impossible case c = 1 with a wrong claim.
 
 Not built: the Gazebo side (SDF export, robot, Nav2 runner), the ProcTHOR-10K converter, the E1–E4 experiment scripts and plots (Point 9 not locked).
 
 ## Next coding step
 
-Khaled checks the seed-0 plot and answers Q7–Q9 in the RL chat. Then the 20 November go/no-go run: `python -m trustmap.train --variant conf --seed 0`, then `python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf`. After Point 9 is locked: the experiment scripts (E0–E3), then the Gazebo export.
+Khaled checks the seed-0 plot and answers Q7–Q9 in the RL chat. The go/no-go check already passes under the placeholders (see above); rerun it if Q7 changes any setting. Commands: `python -m trustmap.train --variant conf --seed 0`, then `python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf`. After Point 9 is locked: the experiment scripts (E0–E3), then the Gazebo export.
 
 ## Log
 
