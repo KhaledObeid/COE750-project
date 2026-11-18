@@ -1,36 +1,52 @@
 # Should the Robot Trust Its Map?
 
-COE750 reinforcement learning course project (LAU, Fall 2026). A robot searches a house for an object using a semantic prior map whose claims are wrong a controlled fraction of the time and whose confidence may be miscalibrated; we test whether a PPO policy learns the right amount of trust, compared against an exact optimum.
+COE750 reinforcement learning course project (LAU, Fall 2026), Khaled Obeid. A robot searches a five-room house for a target object. A semantic prior map claims one room with a confidence c; the map is wrong a controlled fraction of the time (corruption ρ) and its confidence may be miscalibrated (κ). We test whether a PPO policy learns the right amount of trust in the map, measured against an exact value-iteration optimum. Training runs in our own 2D floor-plan simulator; the frozen policy is tested in Gazebo Fortress with Nav2.
 
-Work in progress. Project decisions are in `docs/DECISIONS.md`, current progress in `docs/STATUS.md`.
+Every design decision and its reason is in `docs/DECISIONS.md`; current progress is in `docs/STATUS.md`.
 
 ## Install
 
-Pure Python on CPU; works on Linux and Windows. Python 3.10 or newer.
+The 2D simulator, training and experiments are pure Python on CPU and run on Ubuntu and Windows (Python 3.10 or newer). The versions used for the reported results are pinned in `requirements.txt`.
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e ".[dev]"
+source .venv/bin/activate                     # Windows: .venv\Scripts\activate
+pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu   # Linux only: CPU build of PyTorch
+pip install -r requirements.txt
+pip install -e .
 ```
 
-For training (Point 7) also install the RL extra. On Linux, install the CPU build of PyTorch first so pip does not download the large GPU build; on Windows the default build is already CPU-only.
+The Gazebo part needs Ubuntu 22.04 with ROS 2 Humble, Gazebo Fortress and `sudo apt install ros-humble-ros-gz ros-humble-navigation2 ros-humble-nav2-bringup`. It runs under ROS's own Python (`/usr/bin/python3`, 3.10), which needs only numpy: the trained policy is exported to plain numpy weights for it.
+
+## Reproduce the results
+
+Each command writes its results files under `results/` and redraws its figures into `results/figures/` (PDF for the report, PNG for slides). Commands with `--figures-only` redraw from the saved results without recomputing anything.
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu   # Linux only
-pip install -e ".[dev,rl,plot]"
+python -m trustmap.pool                      # 1. house pools: 5,000 train / 200 validation / 200 test (about 10 min on 8 cores)
+python -m trustmap.plot_house 0 1 2 3        #    look at houses (seed 0 is the development house)
+python -m trustmap.train_all --workers 7     # 2. all reported policies: 15 main runs + 3 at kappa 3 + 3 uniform-placement runs
+python -m trustmap.e0                        # 3. E0: tabular Q-learning reaches the optimum      -> results/e0/
+python -m trustmap.e1                        # 4. E1 + H1/H4: main comparison across rho          -> results/e1/
+python -m trustmap.e2                        # 5. E2 + H2: follow rate against each episode's c*  -> results/e2/
+python -m trustmap.e3                        # 6. E3 + H3: calibration 2 x 2                       -> results/e3/
 ```
 
-## Train and evaluate
+One training run takes about 10 minutes alone, or about 30 minutes when 7 runs share 8 cores. A single run: `python -m trustmap.train --variant conf --seed 0` (variants `conf`, `binary`, `noprior`; options `--kappa`, `--placement uniform`). Each run folder under `runs/` holds `config.json`, the learning curve `validation_curve.csv` and `best_model.zip`, the checkpoint with the lowest validation regret, which is the one evaluated. A quick check of one policy against the baselines on 200 episodes per ρ: `python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf`.
+
+### Gazebo test (E-Gazebo, Point 9e)
 
 ```bash
-python -m trustmap.pool                                   # once: builds the house pools into data/houses/ (about 10 min on 8 cores)
-python -m trustmap.plot_house 0 1 2 --out houses.png      # check houses by eye
-python -m trustmap.train --variant conf --seed 0          # variants: conf, binary, noprior
-python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf
+python -m trustmap.gazebo_export 200000 200001                                   # worlds, Nav2 maps and robot for two test houses
+python -m trustmap.policy_export --median conf --out gazebo/policies/ppo_conf.npz  # PPO-Conf seed with the median validation regret
+
+source /opt/ros/humble/setup.bash
+ros2 launch gazebo/launch/house.launch.py house:=200000                         # terminal 1 (add headless:=true for no window)
+PYTHONPATH=$PWD:$PYTHONPATH /usr/bin/python3 -m trustmap.gazebo_runner --house 200000 \
+    --policy gazebo/policies/ppo_conf.npz --policy follower                     # terminal 2 -> results/gazebo/
 ```
 
-Each run writes `config.json`, `validation_curve.csv` (the learning curve), `best_model.zip` (lowest validation regret) and `final_model.zip` under `runs/`. `--houses smoke` switches both commands to stand-in houses (`trustmap/smoke_houses.py`), for debugging only.
+The runner plays the same 20 test episodes per house (ρ = 0.4) for both policies, retries a failed Nav2 goal once, and writes both result rows: decision metrics on planned distance, which must equal the 2D results on the same episodes (column `same_as_2d`), and end-to-end metrics on driven distance (`driven_m`, `overhead`, `nav_failures`). `--spin` makes the robot turn a full circle at every viewpoint for demo videos; the demo camera streams on `/camera/image`.
 
 ## Run the tests
 
@@ -38,28 +54,36 @@ Each run writes `config.json`, `validation_curve.csv` (the learning curve), `bes
 python -m pytest
 ```
 
-On a machine with ROS 2 sourced, ROS's pytest plugins and Python path can break the run; use `PYTHONPATH= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest` (the same `PYTHONPATH=` prefix helps for training). Tests for the environment are skipped when the RL extra is not installed.
+On a machine with ROS 2 sourced, ROS's pytest plugins and Python path can break the run; use `PYTHONPATH= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest`. Tests that need the RL libraries or the built house pools are skipped when those are missing.
 
 ## Code layout
 
+World and rules (shared by the 2D simulator and Gazebo):
 - `trustmap/cooccurrence.py`: room types, targets, co-occurrence table (Point 3b)
-- `trustmap/house.py`: house data and room-type draw (Points 3a, 3b)
+- `trustmap/house.py`, `trustmap/generator.py`, `trustmap/pool.py`: house data, house generator (rooms, doors, grid, viewpoints, distances, object placement) and the saved pools (Point 3a)
+- `trustmap/grid.py`, `trustmap/planning.py`, `trustmap/camera.py`: occupancy grid, A* and the distance table, virtual camera
 - `trustmap/episode.py`: episode generation recipe (Point 3c)
 - `trustmap/observation.py`: observation rows and comparison-variant masks (Point 4)
 - `trustmap/search.py`: room-level search rules: action mask, episode end, reward (Points 5, 6)
-- `trustmap/optimum.py`: exact optimum by value iteration over current room × searched set
-- `trustmap/metrics.py`: success, SPL, success on the first decision (Point 6b), decision regret (Point 8b)
-- `trustmap/grid.py`: occupancy grid and obstacle inflation, shared by the 2D simulator and Gazebo
-- `trustmap/planning.py`: A* and the room-to-room planned-distance table (Point 3a)
-- `trustmap/camera.py`: virtual camera, view cone plus line-of-sight ray casting
+
+Optimum, metrics and baselines:
+- `trustmap/optimum.py`: exact optimum by value iteration (160 states), fixed-order return lines and the trust threshold c*
+- `trustmap/metrics.py`: success, SPL, first-decision success, decision regret (Points 6b, 8b)
 - `trustmap/baselines.py`: random, nearest-unexplored, greedy map follower, Bayes-nominal (Point 8d)
-- `trustmap/qlearning.py`: tabular Q-learning for the E0 sanity check (Point 8c)
-- `trustmap/env.py`: Gymnasium environment with `action_masks()` (Point 7)
-- `trustmap/ppo.py`: MaskablePPO settings and network (Points 7b, 7c)
-- `trustmap/train.py`: training with validation-regret checkpoints (Point 7d)
-- `trustmap/evaluation.py`, `trustmap/evaluate.py`: paired evaluation of all methods on fixed test episodes
-- `trustmap/generator.py`: house generator: room layout, doors, occupancy grid, viewpoints, distances, object placement (Point 3a)
-- `trustmap/pool.py`: builds and loads the training, validation and test house pools
-- `trustmap/plot_house.py`: plots houses for checking by eye
-- `trustmap/smoke_houses.py`: stand-in houses with straight-line distances, for debugging only
-- `tests/`: checks against the worked examples in `docs/DECISIONS.md`
+- `trustmap/qlearning.py`: tabular Q-learning (Point 8c)
+
+Learning and experiments:
+- `trustmap/env.py`, `trustmap/ppo.py`, `trustmap/train.py`, `trustmap/train_all.py`: Gymnasium environment with action masks, MaskablePPO settings, training (Point 7)
+- `trustmap/evaluation.py`, `trustmap/experiments.py`: paired evaluation on the fixed test set, saved records, confidence intervals (Point 9b)
+- `trustmap/e0.py` to `trustmap/e3.py`: one command per experiment (Points 8c, 9a-9d, 10a); `trustmap/evaluate.py`: quick check
+
+Gazebo:
+- `trustmap/gazebo_export.py`: SDF world, Nav2 map and robot from a generated house
+- `trustmap/policy_export.py`: numpy copy of a trained policy for ROS's Python
+- `trustmap/gazebo_runner.py`, `gazebo/launch/house.launch.py`, `gazebo/config/`: runner, launch file, bridge and Nav2 settings
+
+Other: `trustmap/plot_house.py` (house plots), `trustmap/smoke_houses.py` (stand-in houses for debugging only), `report/` (IEEE LaTeX report), `tests/`.
+
+## License and acknowledgements
+
+MIT license (`LICENSE`). This project uses Stable-Baselines3 and sb3-contrib, Gymnasium, PyTorch, ROS 2, Nav2 and Gazebo. Claude (Anthropic) was used as a design-discussion partner and coding assistant; the author is responsible for every choice and result.

@@ -1,0 +1,10 @@
+# Pinned versions used for the reported results (Point 11c). Python 3.10-3.14, CPU only.
+# Linux: install torch from the CPU index first:
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+numpy==2.5.5
+gymnasium==1.4.0
+stable-baselines3==2.9.2
+sb3-contrib==2.9.2
+torch==2.15.0
+matplotlib==3.11.2
+pytest==9.2.0
