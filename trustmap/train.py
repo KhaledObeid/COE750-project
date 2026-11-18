@@ -41,13 +41,21 @@ from trustmap.smoke_houses import smoke_pool
 TOTAL_DECISIONS = 1_000_000  # 7d
 EVAL_EVERY = 50_000          # 7d
 
-# PLACEHOLDERS (Point 9 / OPEN_QUESTIONS Q7, not locked). Change them only
-# after the RL chat decides; they are written into config.json of every run.
-TRAIN_RHO_RANGE = (0.0, 0.8)  # proposal: "trained with rho uniform in [0, 0.8]", drawn per episode
-VALIDATION_EPISODES = 1000    # size of the fixed validation set
-VALIDATION_SEED = 100_000     # seed of the validation episode draw
+# Point 9a: one policy per variant and seed, trained with rho drawn uniformly
+# from [0, 0.8] fresh every episode.
+TRAIN_RHO_RANGE = (0.0, 0.8)
+# Q7 (answered 2026-11-18): 1,000 fixed validation episodes from the validation
+# houses, rho drawn from the training range, the run's kappa, lambda and
+# placement, seed 100,000. Greedy actions (most probable room) at evaluation.
+VALIDATION_EPISODES = 1000
+VALIDATION_SEED = 100_000
 
 VARIANTS = {"conf": Variant.CONF, "binary": Variant.BINARY, "noprior": Variant.NOPRIOR}
+
+
+def run_name(variant_key, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table"):
+    """Folder name of one run under runs/, e.g. conf_kappa1_lam0.5_table_seed0."""
+    return f"{variant_key}_kappa{kappa:g}_lam{lam:g}_{placement}_seed{seed}"
 
 
 def load_houses(source, pool):
@@ -109,7 +117,7 @@ def train(variant, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table", house
     train_houses = load_houses(houses, "train")
     val_houses = load_houses(houses, "validation")
 
-    name = f"{variant.name.lower()}_kappa{kappa:g}_lam{lam:g}_{placement}_seed{seed}"
+    name = run_name(variant.name.lower(), seed, kappa, lam, placement)
     out_dir = Path(out_root) / name
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "validation_curve.csv").unlink(missing_ok=True)
@@ -127,7 +135,7 @@ def train(variant, seed, kappa=1.0, lam=DEFAULT_LAMBDA, placement="table", house
     )
     model = MaskablePPO("MlpPolicy", vec_env, policy_kwargs=POLICY_KWARGS, seed=seed,
                         device="cpu", verbose=0, **PPO_SETTINGS)
-    # Fixed validation set; rho drawn per episode from the training range (placeholder, Q7).
+    # Fixed validation set; rho drawn per episode from the training range (Q7).
     val_eps = make_episodes(val_houses, config, validation_episodes, VALIDATION_SEED, rho_range=TRAIN_RHO_RANGE)
     callback = ValidationCallback(val_eps, config.max_decisions, variant, eval_every, out_dir)
     callback.verbose = verbose

@@ -39,9 +39,9 @@ NUM_ENVS = 8  # 7c: 8 copies of the 2D simulator stepping side by side (vectoriz
 class PPOPolicy:
     """Lets a trained MaskablePPO model play through the same loop as the baselines.
 
-    deterministic=True picks the highest-probability room instead of sampling.
-    PLACEHOLDER: whether evaluation picks the most likely room or samples is
-    not decided yet (OPEN_QUESTIONS Q7).
+    deterministic=True picks the highest-probability room instead of sampling
+    (greedy actions at evaluation, Q7 answered 2026-11-18), so the reported
+    metrics carry no sampling noise.
     """
 
     def __init__(self, model, variant, deterministic=True, name=None):
