@@ -18,17 +18,19 @@ For training (Point 7) also install the RL extra. On Linux, install the CPU buil
 
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cpu   # Linux only
-pip install -e ".[dev,rl]"
+pip install -e ".[dev,rl,plot]"
 ```
 
 ## Train and evaluate
 
 ```bash
+python -m trustmap.pool                                   # once: builds the house pools into data/houses/ (about 10 min on 8 cores)
+python -m trustmap.plot_house 0 1 2 --out houses.png      # check houses by eye
 python -m trustmap.train --variant conf --seed 0          # variants: conf, binary, noprior
 python -m trustmap.evaluate --model runs/conf_kappa1_lam0.5_table_seed0/best_model.zip --variant conf
 ```
 
-Each run writes `config.json`, `validation_curve.csv` (the learning curve), `best_model.zip` (lowest validation regret) and `final_model.zip` under `runs/`. Until the house generator exists, both commands use stand-in "smoke" houses (`trustmap/smoke_houses.py`), which are for debugging and timing only.
+Each run writes `config.json`, `validation_curve.csv` (the learning curve), `best_model.zip` (lowest validation regret) and `final_model.zip` under `runs/`. `--houses smoke` switches both commands to stand-in houses (`trustmap/smoke_houses.py`), for debugging only.
 
 ## Run the tests
 
@@ -56,5 +58,8 @@ On a machine with ROS 2 sourced, ROS's pytest plugins and Python path can break 
 - `trustmap/ppo.py`: MaskablePPO settings and network (Points 7b, 7c)
 - `trustmap/train.py`: training with validation-regret checkpoints (Point 7d)
 - `trustmap/evaluation.py`, `trustmap/evaluate.py`: paired evaluation of all methods on fixed test episodes
-- `trustmap/smoke_houses.py`: stand-in houses until the generator exists (not for results)
+- `trustmap/generator.py`: house generator: room layout, doors, occupancy grid, viewpoints, distances, object placement (Point 3a)
+- `trustmap/pool.py`: builds and loads the training, validation and test house pools
+- `trustmap/plot_house.py`: plots houses for checking by eye
+- `trustmap/smoke_houses.py`: stand-in houses with straight-line distances, for debugging only
 - `tests/`: checks against the worked examples in `docs/DECISIONS.md`
