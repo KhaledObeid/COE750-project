@@ -30,14 +30,18 @@ from trustmap.optimum import ALL_SEARCHED, object_belief
 from trustmap.search import RoomSearch
 
 
-def q_learning(house, episode, max_decisions, num_episodes=20_000, epsilon=0.2, seed=0):
-    """Learn Q for one episode configuration. Returns Q[current room, searched bits, room]."""
+def q_learning(house, episode, max_decisions, num_episodes=20_000, epsilon=0.2, seed=0, on_episode=None):
+    """Learn Q for one episode configuration. Returns Q[current room, searched bits, room].
+
+    on_episode(n, Q), if given, is called after every training episode n = 1, 2, ...
+    (E0 uses it to record the learning curve).
+    """
     rng = np.random.default_rng(seed)
     belief = object_belief(episode, episode.r)
     Q = np.zeros((NUM_ROOMS, ALL_SEARCHED + 1, NUM_ROOMS))
     visits = np.zeros_like(Q)
 
-    for _ in range(num_episodes):
+    for n in range(1, num_episodes + 1):
         # The only randomness per training episode: where the object is.
         ep = dataclasses.replace(episode, object_room=int(rng.choice(NUM_ROOMS, p=belief)))
         search = RoomSearch(house, ep, max_decisions)
@@ -58,4 +62,6 @@ def q_learning(house, episode, max_decisions, num_episodes=20_000, epsilon=0.2, 
             visits[s_room, s_bits, room] += 1
             alpha = 1.0 / visits[s_room, s_bits, room]
             Q[s_room, s_bits, room] += alpha * (target - Q[s_room, s_bits, room])
+        if on_episode is not None:
+            on_episode(n, Q)
     return Q
