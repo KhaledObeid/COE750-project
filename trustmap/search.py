@@ -40,6 +40,18 @@ class RoomSearch:
         self.distance_m = 0.0  # planned meters so far, for reporting in meters
         self.done = False
         self.success = False
+        # One entry per decision: (room before, searched set before as a 5-bit
+        # number, room chosen). Used to compute decision regret (Point 8b).
+        self.history = []
+
+    @property
+    def searched_bits(self):
+        """Searched set as a 5-bit number (bit k = room k searched), as in optimum.py."""
+        return sum(1 << k for k in range(NUM_ROOMS) if self.searched[k])
+
+    def row_of_room(self, room):
+        """Observation row that shows house room `room` in this episode."""
+        return int(np.flatnonzero(self.episode.row_order == room)[0])
 
     def action_mask(self):
         """True for rows whose room is still unsearched, in shuffled row order (5a)."""
@@ -53,6 +65,7 @@ class RoomSearch:
         if self.searched[room]:
             raise ValueError("masked action: room already searched")
 
+        self.history.append((self.current_room, self.searched_bits, room))
         meters = float(self.house.distances[self.current_room, room])
         reward = -meters / self.house.max_distance  # Point 6a
         self.distance_m += meters
