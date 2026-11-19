@@ -35,6 +35,7 @@ python -m trustmap.h4_check                  #    H4 check (post hoc): gap by ha
 pip install prior==1.0.3                     #    ProcTHOR-10K row (no training; needs internet once to fetch the dataset):
 python -m trustmap.procthor convert          #    100 five-room houses on our grid                   -> data/procthor/, results/procthor/houses.png
 python -m trustmap.procthor evaluate         #    15 main policies + baselines                      -> results/procthor/table.csv
+python -m trustmap.procthor_check           #    conversion check against ProcTHOR's own data     -> results/procthor/conversion_check.csv
 ```
 
 What is in the repository and what is regenerated: every run folder under `runs/` (`best_model.zip`, `final_model.zip`, `config.json`, `validation_curve.csv`), the house pools in `data/houses/` (they are small: only room types and distance tables; the grids are rebuilt from the seed), and all results files and figures are committed. Not committed: the training logs `runs/*/train.log` (rerun `train_all`), the Gazebo worlds `gazebo/worlds/` (rerun `gazebo_export`), and the raw overhead frames of the demo (deleted after the videos are built).

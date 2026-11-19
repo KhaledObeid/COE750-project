@@ -1,8 +1,8 @@
 procthor: 20 method runs x 5 rho values
   saved results/procthor/records_rho0.npz
-  saved results/procthor/records_rho0.2.npz
   saved results/procthor/records_rho0.6.npz
   saved results/procthor/records_rho0.4.npz
+  saved results/procthor/records_rho0.2.npz
   saved results/procthor/records_rho0.8.npz
   wrote results/procthor/table.csv
   wrote results/figures/procthor_regret.pdf/.png

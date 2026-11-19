@@ -72,6 +72,7 @@ REPO = RESULTS_DIR.parent
 DATA = REPO / "data" / "procthor" / "houses.json"
 OUT = RESULTS_DIR / "procthor"
 TARGET_HOUSES = 100
+REVISION = "439193522244720b86d8c81cde2e51e3a4d150cf"  # procthor-10k git commit (main on 2026-11-19)
 EPISODE_SEED = 300_000      # DECISIONS "Two last analyses"
 EPISODES_PER_HOUSE = 25
 ID_OFFSET = {"test": 1_000_000, "val": 1_100_000}
@@ -154,6 +155,7 @@ def convert(h, seed):
     # Walls: 0.20 m bands centred on every non-empty wall segment, extended by half a wall at the ends
     # so corners close. ProcTHOR stores each wall once per room side; both sides give the same band.
     wall = np.zeros_like(occupied)
+    wall_v, wall_h = np.zeros_like(occupied), np.zeros_like(occupied)  # bands of vertical / horizontal walls
     walls_by_id = {}
     for w in h["walls"]:
         (x0, y0), (x1, y1) = _segment(w["polygon"])
@@ -168,9 +170,12 @@ def convert(h, seed):
             c = _band(xc, min(x0, x1) - HALF_WALL, max(x0, x1) + HALF_WALL)
         else:
             raise Skip("wall not axis-aligned")
-        wall |= np.outer(r, c)
-    # An "empty" wall between two rooms must stay open even if the band of a crossing wall's end touches it:
-    # nothing else to do, since empty walls simply draw no band.
+        band = np.outer(r, c)
+        wall |= band
+        if abs(x0 - x1) < 1e-6:
+            wall_v |= band
+        else:
+            wall_h |= band
     occupied |= wall
 
     # Doors: cut the opening through the wall band. holePolygon x is measured along wall0 from its first point.
@@ -189,7 +194,10 @@ def convert(h, seed):
         else:
             r = _band(yc, y0 - HALF_WALL, y0 + HALF_WALL)
             c = _band(xc, min(sx, ex), max(sx, ex))
-        occupied[np.outer(r, c)] = False
+        # Clear only this wall's band: where a door runs up to a corner, the band of the crossing wall
+        # stays closed (checked by trustmap.procthor_check).
+        crossing = wall_h if abs(x0 - x1) < 1e-6 else wall_v
+        occupied[np.outer(r, c) & ~crossing] = False
 
     grid = OccupancyGrid(occupied, cs, (float(x_min), float(y_min)))
     planning = inflate(grid, ROBOT_RADIUS_M)
@@ -229,7 +237,8 @@ def _convert_job(job):
 def load_procthor():
     import prior
 
-    return prior.load_dataset("procthor-10k")
+    # Pinned to the revision that was "main" when the row was computed (Q14), so reruns use the same houses.
+    return prior.load_dataset("procthor-10k", revision=REVISION)
 
 
 def convert_all(workers=None):
@@ -395,6 +404,7 @@ def main():
         valid, skips = convert_all(a.workers)
         save_pool(valid)
         OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / "dataset_revision.txt").write_text(f"procthor-10k {REVISION}\n")
         counts = Counter(s["reason"] for s in skips)
         write_csv(OUT / "skips.csv", skips or [{"split": "", "index": "", "reason": "none"}])
         write_csv(OUT / "skip_counts.csv", [{"reason": k, "houses": v} for k, v in counts.items()]

@@ -62,3 +62,15 @@ def test_empty_wall_is_open_and_no_doors_means_unreachable():
     assert not lay.grid.occupied[r, c]          # "empty" wall: no wall drawn
     with pytest.raises(Skip, match="unreachable"):
         convert(toy_house(doors=False), seed=2)
+
+
+def test_door_at_a_corner_keeps_the_crossing_wall_closed():
+    h = toy_house()
+    # Move the first door to the end of its wall: 2-3 m from the wall's first point (3, 3) is z = 1..0,
+    # so it runs up to the outer wall at z = 0.
+    h["doors"][0]["holePolygon"] = [{"x": 2.0, "y": 0, "z": 0}, {"x": 3.0, "y": 2.0, "z": 0}]
+    lay = convert(h, seed=3)
+    r, c = lay.grid.world_to_cell((W - 0.05, 0.05))   # inside both the door band and the outer wall band
+    assert lay.grid.occupied[r, c]
+    r, c = lay.grid.world_to_cell((W - 0.05, 0.5))    # the doorway itself is open
+    assert not lay.grid.occupied[r, c]

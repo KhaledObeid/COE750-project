@@ -6,21 +6,24 @@ Format for each entry: date, file and function affected, the question, the optio
 
 ## Open
 
+(none)
+
+## Resolved
+
 ### Q13 (2026-11-19): H4 check, ties for "the target's most likely room by habit"
 
 - Affects: `trustmap/h4_check.py` `claim_on_habit_room`.
 - Question: a house can have two rooms with the same highest habit weight (for example two bedrooms for a bedroom target). Does a claim on either of them count as "the claimed room was the most likely room by habit"? The start room (already searched) is also included when taking the maximum, as written ("in that house").
 - Options: (a) any tied room counts; (b) only the lowest-index tied room counts; (c) exclude episodes with a tie.
-- Decided provisionally by Claude Code, Khaled to confirm: (a), the simplest reading. Status: open.
+- Decided provisionally by Claude Code: (a), the simplest reading.
+- Status: resolved 2026-11-19 (DECISIONS.md, answers to Q13-Q14): (a) as implemented; the report notes that weak-habit targets have many ties (keys: four rooms at weight 3).
 
 ### Q14 (2026-11-19): ProcTHOR-10K converter details the DECISIONS paragraph does not fix
 
 - Affects: `trustmap/procthor.py` (`convert`, `convert_all`).
 - Choices: (1) room centre for the viewpoint rule = centroid of the room's floor cells, since ProcTHOR rooms can be L-shaped (our generator uses the rectangle centre, which is the same thing for a rectangle); (2) a door's `holePolygon` offsets are measured along the wall from the wall polygon's first point (ProcTHOR's p0); the other reading would only mirror a door along its own wall, not change which rooms connect; (3) walls marked `empty` draw no wall (open kitchen-living connections); the entrance door to the outside stays closed; (4) the dataset is `prior.load_dataset("procthor-10k")` at its default (latest) revision with `prior` 1.0.3; (5) converted houses get ids 1,000,000 + index (test split) and 1,100,000 + index (validation split); (6) the evaluation also plays the optimum as the regret-0 reference line, as in E1.
 - Result: the test split has 99 five-room houses, all valid; 1 validation house completes the 100. No house was skipped.
-- Decided provisionally by Claude Code, Khaled to confirm. Status: open.
-
-## Resolved
+- Status: resolved 2026-11-19 (DECISIONS.md, answers to Q13-Q14): accepted as implemented; the dataset revision id is written to results/procthor/. A conversion check on all 100 houses is required before the row is reported (`trustmap/procthor_check.py`).
 
 ### Q10 (2026-11-19): what the lambda sensitivity row and the uniform ablation row train
 
