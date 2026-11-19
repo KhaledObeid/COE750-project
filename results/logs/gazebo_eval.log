@@ -1,0 +1,8 @@
+=== house 200000 05:35:08
+Nav2 active after about 8 s
+runner exit code 0 (log: results/gazebo/runner_200000.log)
+=== house 200000 done 06:16:22 exit=0
+=== house 200001 06:16:22
+Nav2 active after about 8 s
+runner exit code 0 (log: results/gazebo/runner_200001.log)
+=== house 200001 done 07:05:25 exit=0
