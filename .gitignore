@@ -5,14 +5,12 @@ venv/
 .env
 .vscode/
 .ipynb_checkpoints/
-# Reported checkpoints, configs and learning curves under runs/ are kept (11c);
-# the final models, logs and other large files are not.
-runs/*/final_model.zip
+# Every run's best_model.zip, final_model.zip, config.json and validation_curve.csv
+# are kept (11c; about 8 MB in total); the training logs are not (rerun train_all to get them).
 runs/*/train.log
 runs/train_all.log
 checkpoints/
 *.pt
-data/houses/
 *.egg-info/
 .pytest_cache/
 gazebo/worlds/
