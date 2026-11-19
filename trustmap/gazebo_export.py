@@ -6,10 +6,13 @@ writes, for every house seed, gazebo/worlds/house_<seed>/:
   world.sdf   the house: walls built from exactly the blocked cells of the shared
               occupancy grid (so A*, the virtual camera and Nav2 see the same
               walls as the 2D simulator), floors coloured by room type (visual
-              only), no furniture (Q9.7), lights, and the robot
+              only), no furniture (Q9.7), lights, the robot, and a fixed
+              overhead camera for the demo videos (visual only, no effect on
+              the robot; DECISIONS "Demo material")
   map.pgm / map.yaml   the same grid as a Nav2 map (Nav2 inflates it itself by the
               robot radius set in gazebo/config/nav2_params.yaml)
-  house.json  room types, room rectangles and viewpoints in world meters
+  house.json  room types, room rectangles and viewpoints in world meters, and the
+              overhead camera's position and field of view (to place labels)
 
 The robot (Point 2 and the robot paragraph of the engineering parameters):
 two driven wheels plus two casters, footprint radius 0.20 m, a 360-degree
@@ -44,6 +47,41 @@ FLOOR_COLORS = {  # RGB, rooms told apart by floor colour (Q9.7)
 WHEEL_RADIUS = 0.05
 WHEEL_SEPARATION = 0.30
 BASE_HEIGHT = 0.12
+
+# Overhead demo camera (demo only): a static camera straight above the house centre,
+# looking down, with image up = world +y and image right = world +x.
+OVERHEAD_HEIGHT_M = 25.0
+OVERHEAD_PIXELS = 720
+OVERHEAD_RATE_HZ = 4
+OVERHEAD_MARGIN_M = 0.6
+
+
+def overhead_camera(layout):
+    """Position (x, y, z) and horizontal field of view (radians) of the overhead camera."""
+    grid = layout.grid
+    rows, cols = grid.occupied.shape
+    (ox, oy), cs = grid.origin, grid.cell_size
+    cx, cy = ox + cols * cs / 2, oy + rows * cs / 2
+    half = max(cols, rows) * cs / 2 + OVERHEAD_MARGIN_M
+    fov = 2 * float(np.arctan(half / (OVERHEAD_HEIGHT_M - WALL_HEIGHT_M)))  # wall tops stay inside the view
+    return (cx, cy, OVERHEAD_HEIGHT_M), fov
+
+
+def overhead_sdf(layout):
+    """Static overhead camera model. Pitch +90 degrees points the camera's x axis down; yaw
+    +90 degrees turns the image so that up is world +y."""
+    (x, y, z), fov = overhead_camera(layout)
+    n = OVERHEAD_PIXELS
+    return f"""
+  <model name='overhead_camera'><static>true</static><pose>{x:.3f} {y:.3f} {z:.3f} 0 1.5708 1.5708</pose>
+    <link name='l'>
+      <sensor name='overhead' type='camera'>
+        <topic>overhead/image</topic><update_rate>{OVERHEAD_RATE_HZ}</update_rate><always_on>1</always_on>
+        <camera><horizontal_fov>{fov:.5f}</horizontal_fov><image><width>{n}</width><height>{n}</height></image>
+          <clip><near>1.0</near><far>{z + 5:.1f}</far></clip></camera>
+      </sensor>
+    </link>
+  </model>"""
 
 
 def wall_boxes(grid):
@@ -184,6 +222,7 @@ def world_sdf(layout):
   <model name='walls'><static>true</static>{''.join(walls)}</model>
   <model name='floors'><static>true</static>{''.join(floors)}</model>
 {robot_sdf(sx, sy)}
+{overhead_sdf(layout)}
 </world>
 </sdf>
 """
@@ -215,6 +254,8 @@ def export_house(seed, out_root=WORLDS_DIR):
         "rooms_m": [[v * cs for v in r.rect] for r in layout.rooms],
         "viewpoints_m": [list(layout.viewpoint_xy(k)) for k in range(len(layout.rooms))],
         "max_distance_m": layout.house.max_distance,
+        "overhead_camera": {"xyz_m": list(overhead_camera(layout)[0]), "horizontal_fov": overhead_camera(layout)[1],
+                            "pixels": OVERHEAD_PIXELS, "rate_hz": OVERHEAD_RATE_HZ},
     }, indent=2))
     return out_dir
 

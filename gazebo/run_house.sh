@@ -2,19 +2,22 @@
 # Run one Gazebo house unattended (Point 9e): launch Gazebo + bridge + Nav2 headless,
 # wait until Nav2 is active, run the runner, then shut every process down.
 #
-#   gazebo/run_house.sh <house> <log_dir> [--bag <bag_dir>] -- <runner arguments>
+#   gazebo/run_house.sh <house> <log_dir> [--bag <bag_dir>] [--module <python module>] -- <arguments>
 #
 # Examples (from the repository root):
 #   gazebo/run_house.sh 200000 results/gazebo -- --policy gazebo/policies/ppo_conf.npz --policy follower
-#   gazebo/run_house.sh 200000 results/demo --bag results/demo/bag_200000 -- \
-#       --policy gazebo/policies/ppo_conf.npz --episodes 2 --spin --out results/demo
+#   gazebo/run_house.sh 200000 results/demo/logs --module trustmap.gazebo_demo -- \
+#       --selection results/demo/selection.json          # demo videos (trustmap.gazebo_demo)
 #
 # Logs: <log_dir>/launch_<house>.log (Gazebo, bridge, Nav2) and <log_dir>/runner_<house>.log.
 # With --bag, /camera/image is recorded with ros2 bag while the runner drives.
+# --module runs another module than trustmap.gazebo_runner (default) with the same arguments.
 set -u
 HOUSE=$1; LOG_DIR=$2; shift 2
 BAG=""
+MODULE=trustmap.gazebo_runner
 if [ "${1:-}" = "--bag" ]; then BAG=$2; shift 2; fi
+if [ "${1:-}" = "--module" ]; then MODULE=$2; shift 2; fi
 [ "${1:-}" = "--" ] && shift
 REPO=$(cd "$(dirname "$0")/.." && pwd)
 cd "$REPO"
@@ -64,7 +67,7 @@ if [ -n "$BAG" ]; then
     sleep 3
 fi
 
-PYTHONPATH="$REPO:${PYTHONPATH:-}" /usr/bin/python3 -m trustmap.gazebo_runner --house "$HOUSE" "$@" \
+PYTHONPATH="$REPO:${PYTHONPATH:-}" /usr/bin/python3 -m "$MODULE" --house "$HOUSE" "$@" \
     > "$RUNNER_LOG" 2>&1
 CODE=$?
 echo "runner exit code $CODE (log: $RUNNER_LOG)"

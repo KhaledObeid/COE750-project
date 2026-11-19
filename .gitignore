@@ -14,3 +14,5 @@ checkpoints/
 *.egg-info/
 .pytest_cache/
 gazebo/worlds/
+# Raw overhead frames of the demo videos (deleted after trustmap.demo_video builds the MP4)
+results/demo/*/frames/

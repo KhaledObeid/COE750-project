@@ -30,3 +30,8 @@
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "ignition.msgs.Image"
   direction: GZ_TO_ROS
+- ros_topic_name: "/overhead/image"     # fixed overhead demo camera (DECISIONS "Demo material"): video only
+  gz_topic_name: "/overhead/image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "ignition.msgs.Image"
+  direction: GZ_TO_ROS
