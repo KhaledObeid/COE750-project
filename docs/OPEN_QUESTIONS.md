@@ -6,7 +6,12 @@ Format for each entry: date, file and function affected, the question, the optio
 
 ## Open
 
-(none)
+### Q13 (2026-11-19): H4 check, ties for "the target's most likely room by habit"
+
+- Affects: `trustmap/h4_check.py` `claim_on_habit_room`.
+- Question: a house can have two rooms with the same highest habit weight (for example two bedrooms for a bedroom target). Does a claim on either of them count as "the claimed room was the most likely room by habit"? The start room (already searched) is also included when taking the maximum, as written ("in that house").
+- Options: (a) any tied room counts; (b) only the lowest-index tied room counts; (c) exclude episodes with a tie.
+- Decided provisionally by Claude Code, Khaled to confirm: (a), the simplest reading. Status: open.
 
 ## Resolved
 

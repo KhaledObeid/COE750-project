@@ -31,6 +31,7 @@ python -m trustmap.e1                        # 4. E1 + H1/H4: main comparison ac
 python -m trustmap.e2                        # 5. E2 + H2: follow rate against each episode's c*  -> results/e2/
 python -m trustmap.e3                        # 6. E3 + H3: calibration 2 x 2                       -> results/e3/
 python -m trustmap.e1 --condition lam0 lam1  #    lambda sensitivity row (evaluation only, Q10)    -> results/e1/table.csv
+python -m trustmap.h4_check                  #    H4 check (post hoc): gap by habit x claimed room  -> results/e1/h4_check.csv
 ```
 
 What is in the repository and what is regenerated: every run folder under `runs/` (`best_model.zip`, `final_model.zip`, `config.json`, `validation_curve.csv`), the house pools in `data/houses/` (they are small: only room types and distance tables; the grids are rebuilt from the seed), and all results files and figures are committed. Not committed: the training logs `runs/*/train.log` (rerun `train_all`), the Gazebo worlds `gazebo/worlds/` (rerun `gazebo_export`), and the raw overhead frames of the demo (deleted after the videos are built).
