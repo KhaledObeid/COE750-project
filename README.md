@@ -4,6 +4,8 @@ COE750 reinforcement learning course project (LAU, Fall 2026), Khaled Obeid. A r
 
 Every design decision and its reason is in `docs/DECISIONS.md`; current progress is in `docs/STATUS.md`.
 
+Evidence of agent behavior: 10 hand-picked Gazebo episodes of PPO-Conf with an overhead video and a side panel (what the robot is told, what is hidden from it, each decision against the optimum), for example [a success after a wrong low-confidence claim](results/demo/200000_1/video.mp4) and [a failure](results/demo/200000_20/video.mp4); the full list is in [results/demo/README.md](results/demo/README.md). 2D animation: [results/demo/demo_2d.gif](results/demo/demo_2d.gif). These are illustrations, not reported results.
+
 ## Install
 
 The 2D simulator, training and experiments are pure Python on CPU and run on Ubuntu and Windows (Python 3.10 or newer). The versions used for the reported results are pinned in `requirements.txt`.
@@ -36,6 +38,7 @@ pip install prior==1.0.3                     #    ProcTHOR-10K row (no training;
 python -m trustmap.procthor convert          #    100 five-room houses on our grid                   -> data/procthor/, results/procthor/houses.png
 python -m trustmap.procthor evaluate         #    15 main policies + baselines                      -> results/procthor/table.csv
 python -m trustmap.procthor_check           #    conversion check against ProcTHOR's own data     -> results/procthor/conversion_check.csv
+python -m trustmap.report_tables            #    LaTeX tables for the report from the CSVs above  -> report/tables/
 ```
 
 What is in the repository and what is regenerated: every run folder under `runs/` (`best_model.zip`, `final_model.zip`, `config.json`, `validation_curve.csv`), the house pools in `data/houses/` (they are small: only room types and distance tables; the grids are rebuilt from the seed), and all results files and figures are committed. Not committed: the training logs `runs/*/train.log` (rerun `train_all`), the Gazebo worlds `gazebo/worlds/` (rerun `gazebo_export`), and the raw overhead frames of the demo (deleted after the videos are built).
@@ -103,6 +106,9 @@ Learning and experiments:
 - `trustmap/env.py`, `trustmap/ppo.py`, `trustmap/train.py`, `trustmap/train_all.py`: Gymnasium environment with action masks, MaskablePPO settings, training (Point 7)
 - `trustmap/evaluation.py`, `trustmap/experiments.py`: paired evaluation on the fixed test set, saved records, confidence intervals (Point 9b)
 - `trustmap/e0.py` to `trustmap/e3.py`: one command per experiment (Points 8c, 9a-9d, 10a); `trustmap/evaluate.py`: quick check
+- `trustmap/h4_check.py`: H4 check, an analysis done after seeing the H4 result (DECISIONS "Two last analyses")
+- `trustmap/procthor.py`, `trustmap/procthor_check.py`: ProcTHOR-10K row (conversion onto our grid, evaluation without training) and its conversion check
+- `trustmap/report_tables.py`: the report's LaTeX tables from the results files (Point 11a)
 
 Gazebo:
 - `trustmap/gazebo_export.py`: SDF world, Nav2 map and robot from a generated house
@@ -115,4 +121,4 @@ Other: `trustmap/animate_episode.py` (2D episode animation, the backup demo: `py
 
 ## License and acknowledgements
 
-MIT license (`LICENSE`). This project uses Stable-Baselines3 and sb3-contrib, Gymnasium, PyTorch, ROS 2, Nav2 and Gazebo. Claude (Anthropic) was used as a design-discussion partner and coding assistant; the author is responsible for every choice and result.
+MIT license (`LICENSE`). This project uses Stable-Baselines3 and sb3-contrib, Gymnasium, PyTorch, ROS 2, Nav2 and Gazebo, and, for the ProcTHOR-10K row, the ProcTHOR-10K dataset (Deitke et al., NeurIPS 2022) loaded with AI2's `prior` package. Claude (Anthropic) was used as a design-discussion partner and coding assistant; the author is responsible for every choice and result.

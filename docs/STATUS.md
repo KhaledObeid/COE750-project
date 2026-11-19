@@ -57,11 +57,11 @@ Every Gazebo decision equals the 2D decision. The two end-to-end losses per poli
 
 All eleven points are locked and implemented in `trustmap/` (house generator, episodes, observations, search rules, optimum and c*, metrics, baselines, Q-learning check, env and PPO training, E0–E3, Gazebo export/runner/summary, policy export, demo selection/recording/video, 2D animation). 66 pytest tests pass (`.venv`, Python 3.14). Committed: all CSVs and figures in `results/`, each run's best/final model, config and validation curve, the house pools, the Gazebo logs and the demo material. Q10–Q14 are resolved; OPEN_QUESTIONS has no open items.
 
-Done this session: the H4 check (`trustmap/h4_check.py`) and the ProcTHOR-10K row (`trustmap/procthor.py`; needs `pip install prior==1.0.3`). Not done: E4 (stretch), the report text and the slides.
+Done this session: the H4 check (`trustmap/h4_check.py`) and the ProcTHOR-10K row (`trustmap/procthor.py`; needs `pip install prior==1.0.3`). Report support (11a): `python -m trustmap.report_tables` writes the E1, extra-row (λ, uniform, ProcTHOR), E3 and Gazebo tables to `report/tables/` from the CSVs, and `report/main.tex` inputs them next to the figures, including the H4 check figure labelled as done after seeing the result. The Gazebo table carries the caption line fixed in DECISIONS. Captions and prose are left as TODO for Khaled. The report is checked for balanced braces and environments but not compiled, because LaTeX is not installed here (no sudo); compile it on Overleaf. Not done: E4 (stretch), the report text and the slides.
 
 ## Next coding step
 
-None is required for the locked plan. Next is writing: fill `report/` from the numbers above, check `report/refs.bib`, and make the slides (the demo MP4s and stills are ready for them). Optional: E4.
+None is required for the locked plan. Next is writing (Khaled): compile `report/` on Overleaf (upload `report/` and `results/figures/`) and check the tables; then fill `report/` from the numbers above, check `report/refs.bib`, and make the slides (the demo MP4s and stills are ready for them). Optional: E4.
 
 ## Log
 
@@ -70,3 +70,4 @@ None is required for the locked plan. Next is writing: fill `report/` from the n
 - 2026-11-19: Points 9–11: c*, E0–E3, all locked runs trained, Gazebo tested, README/report skeleton; Q10–Q12 added, then resolved; λ row and uniform row; Gazebo evaluation 9e; demo material; results summary.
 - 2026-11-19 (afternoon): H4 check (post hoc); ProcTHOR-10K row (100 houses, no skips); Q13–Q14 logged provisionally.
 - 2026-11-19 (afternoon): Q13–Q14 resolved; ProcTHOR conversion check (corner-door fix, all 100 houses pass, row rerun; dataset revision pinned).
+- 2026-11-19 (evening): report tables generated from results (`report_tables.py`) and wired into `report/main.tex`; README links demo videos and credits ProcTHOR-10K.
