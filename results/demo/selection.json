@@ -1,0 +1,127 @@
+{
+  "rule": "successes: houses in order; in each house, the first 2 successful episodes\n             (by episode index) whose target is not already selected; if a\n             house has no such episode left, the first successes with any target;\n  failures:  the first 2 failed episodes in scan order (house order, then\n             episode index) at rho = 0.4; if fewer than 2 exist there, the scan is\n             repeated at rho = 0.6 and then 0.8, and those episodes are labelled\n             with their rho.\nThat gives about 10 episodes: 8 successes covering every target, 2 failures.",
+  "candidates_at_rho_0.4": 100,
+  "failures_at_rho_0.4": 8,
+  "episodes": [
+    {
+      "house": 200000,
+      "episode": 0,
+      "rho": 0.4,
+      "target": "laptop",
+      "success": true,
+      "decisions": 1,
+      "regret_m": 0.0,
+      "planned_m": 2.4,
+      "c": 0.69,
+      "claim_correct": true
+    },
+    {
+      "house": 200000,
+      "episode": 1,
+      "rho": 0.4,
+      "target": "alarm_clock",
+      "success": true,
+      "decisions": 2,
+      "regret_m": 0.931,
+      "planned_m": 19.93,
+      "c": 0.333,
+      "claim_correct": false
+    },
+    {
+      "house": 200001,
+      "episode": 1,
+      "rho": 0.4,
+      "target": "remote_control",
+      "success": true,
+      "decisions": 2,
+      "regret_m": 0.182,
+      "planned_m": 15.34,
+      "c": 0.751,
+      "claim_correct": true
+    },
+    {
+      "house": 200001,
+      "episode": 2,
+      "rho": 0.4,
+      "target": "book",
+      "success": true,
+      "decisions": 1,
+      "regret_m": 0.0,
+      "planned_m": 8.47,
+      "c": 0.737,
+      "claim_correct": true
+    },
+    {
+      "house": 200002,
+      "episode": 1,
+      "rho": 0.4,
+      "target": "mug",
+      "success": true,
+      "decisions": 3,
+      "regret_m": 0.0,
+      "planned_m": 19.53,
+      "c": 0.382,
+      "claim_correct": true
+    },
+    {
+      "house": 200002,
+      "episode": 2,
+      "rho": 0.4,
+      "target": "towel",
+      "success": true,
+      "decisions": 3,
+      "regret_m": 2.799,
+      "planned_m": 22.61,
+      "c": 0.551,
+      "claim_correct": false
+    },
+    {
+      "house": 200003,
+      "episode": 1,
+      "rho": 0.4,
+      "target": "cell_phone",
+      "success": true,
+      "decisions": 1,
+      "regret_m": 0.0,
+      "planned_m": 3.7,
+      "c": 0.632,
+      "claim_correct": true
+    },
+    {
+      "house": 200003,
+      "episode": 12,
+      "rho": 0.4,
+      "target": "keys",
+      "success": true,
+      "decisions": 1,
+      "regret_m": 0.146,
+      "planned_m": 3.7,
+      "c": 0.422,
+      "claim_correct": true
+    },
+    {
+      "house": 200000,
+      "episode": 11,
+      "rho": 0.4,
+      "target": "book",
+      "success": false,
+      "decisions": 3,
+      "regret_m": 0.0,
+      "planned_m": 11.41,
+      "c": 0.641,
+      "claim_correct": false
+    },
+    {
+      "house": 200000,
+      "episode": 20,
+      "rho": 0.4,
+      "target": "alarm_clock",
+      "success": false,
+      "decisions": 3,
+      "regret_m": 1.779,
+      "planned_m": 15.58,
+      "c": 0.526,
+      "claim_correct": false
+    }
+  ]
+}

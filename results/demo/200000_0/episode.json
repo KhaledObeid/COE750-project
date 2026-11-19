@@ -1,0 +1,119 @@
+{
+  "label": "hand-picked illustrative example; not part of the Gazebo result rows",
+  "house": 200000,
+  "episode": 0,
+  "rho": 0.4,
+  "kappa": 1.0,
+  "policy": "PPO-Conf (median-validation seed)",
+  "shown_to_robot": {
+    "target": "laptop",
+    "start_room": 4,
+    "claimed_room": 0,
+    "c": 0.69,
+    "habit": [
+      0.105,
+      0.316,
+      0.053,
+      0.316,
+      0.211
+    ]
+  },
+  "hidden_from_robot": {
+    "r": 0.69,
+    "object_room": 0,
+    "claim_correct": true
+  },
+  "room_types": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "room_labels": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "rooms_m": [
+    [
+      2.5,
+      0.0,
+      4.9,
+      7.6000000000000005
+    ],
+    [
+      4.9,
+      0.0,
+      8.6,
+      7.6000000000000005
+    ],
+    [
+      0.0,
+      7.6000000000000005,
+      2.9000000000000004,
+      10.9
+    ],
+    [
+      2.9000000000000004,
+      7.6000000000000005,
+      8.6,
+      10.9
+    ],
+    [
+      0.0,
+      0.0,
+      2.5,
+      7.6000000000000005
+    ]
+  ],
+  "object_xy_m": [
+    3.8499999999999996,
+    3.8499999999999996
+  ],
+  "max_distance_m": 14.342640687119282,
+  "decisions": [
+    {
+      "k": 1,
+      "from_room": 4,
+      "room": 0,
+      "optimum_room": 0,
+      "regret_m": 0.0,
+      "planned_m": 2.4,
+      "t_decide": 14.612,
+      "t_arrive": 25.556,
+      "nav_ok": true,
+      "outcome": "found",
+      "camera_saw_target": true,
+      "t_outcome": 33.424,
+      "t_still": 36.072
+    }
+  ],
+  "success": true,
+  "planned_m": 2.4,
+  "driven_m": 2.31,
+  "regret_m": 0.0,
+  "nav_failures": 0,
+  "still": "still.png",
+  "frames": 110,
+  "events": [
+    {
+      "t": 14.612,
+      "kind": "start"
+    },
+    {
+      "t": 39.08,
+      "kind": "end"
+    }
+  ],
+  "overhead_camera": {
+    "xyz_m": [
+      4.3,
+      5.45,
+      25.0
+    ],
+    "horizontal_fov": 0.5095166048717897
+  }
+}

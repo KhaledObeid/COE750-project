@@ -1,0 +1,18 @@
+[INFO] [1795064901.309079382] [trustmap_runner]: waiting for Nav2 and the ground-truth pose ...
+episode 200000_0 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 4, 'room': 0, 'optimum_room': 0, 'regret_m': 0.0, 'planned_m': 2.4, 't_decide': 14.612, 't_arrive': 25.556, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': True, 't_outcome': 33.424, 't_still': 36.072}
+wrote /home/ubuntu/COE750-project/results/demo/200000_0 (110 overhead frames, success=True)
+episode 200000_1 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 4, 'room': 2, 'optimum_room': 0, 'regret_m': 0.601, 'planned_m': 5.58, 't_decide': 44.34, 't_arrive': 70.748, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 78.62}
+  decision 2: {'k': 2, 'from_room': 2, 'room': 3, 'optimum_room': 0, 'regret_m': 0.33, 'planned_m': 14.34, 't_decide': 78.62, 't_arrive': 141.052, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': True, 't_outcome': 148.928, 't_still': 150.476}
+wrote /home/ubuntu/COE750-project/results/demo/200000_1 (448 overhead frames, success=True)
+episode 200000_11 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 3, 'room': 1, 'optimum_room': 1, 'regret_m': 0.0, 'planned_m': 5.91, 't_decide': 158.664, 't_arrive': 185.372, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 193.244}
+  decision 2: {'k': 2, 'from_room': 1, 'room': 0, 'optimum_room': 0, 'regret_m': 0.0, 'planned_m': 3.1, 't_decide': 193.244, 't_arrive': 214.512, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 222.4}
+  decision 3: {'k': 3, 'from_room': 0, 'room': 4, 'optimum_room': 4, 'regret_m': 0.0, 'planned_m': 2.4, 't_decide': 222.4, 't_arrive': 239.908, 'nav_ok': True, 'outcome': 'failure', 'camera_saw_target': False, 't_outcome': 247.784}
+wrote /home/ubuntu/COE750-project/results/demo/200000_11 (381 overhead frames, success=False)
+episode 200000_20 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 2, 'room': 4, 'optimum_room': 0, 'regret_m': 0.701, 'planned_m': 5.58, 't_decide': 255.984, 't_arrive': 282.804, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 290.692}
+  decision 2: {'k': 2, 'from_room': 4, 'room': 0, 'optimum_room': 1, 'regret_m': 1.077, 'planned_m': 2.4, 't_decide': 290.692, 't_arrive': 301.6, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 309.476}
+  decision 3: {'k': 3, 'from_room': 0, 'room': 3, 'optimum_room': 3, 'regret_m': 0.0, 'planned_m': 7.59, 't_decide': 309.476, 't_arrive': 350.352, 'nav_ok': True, 'outcome': 'failure', 'camera_saw_target': False, 't_outcome': 358.24}
+wrote /home/ubuntu/COE750-project/results/demo/200000_20 (433 overhead frames, success=False)

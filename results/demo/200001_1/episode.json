@@ -1,0 +1,133 @@
+{
+  "label": "hand-picked illustrative example; not part of the Gazebo result rows",
+  "house": 200001,
+  "episode": 1,
+  "rho": 0.4,
+  "kappa": 1.0,
+  "policy": "PPO-Conf (median-validation seed)",
+  "shown_to_robot": {
+    "target": "remote_control",
+    "start_room": 2,
+    "claimed_room": 4,
+    "c": 0.751,
+    "habit": [
+      0.038,
+      0.615,
+      0.038,
+      0.154,
+      0.154
+    ]
+  },
+  "hidden_from_robot": {
+    "r": 0.751,
+    "object_room": 4,
+    "claim_correct": true
+  },
+  "room_types": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "bedroom"
+  ],
+  "room_labels": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom 1",
+    "bedroom 2"
+  ],
+  "rooms_m": [
+    [
+      0.0,
+      0.0,
+      5.4,
+      4.0
+    ],
+    [
+      0.0,
+      4.0,
+      5.4,
+      10.0
+    ],
+    [
+      5.4,
+      4.0,
+      10.8,
+      6.0
+    ],
+    [
+      5.4,
+      6.0,
+      10.8,
+      10.0
+    ],
+    [
+      5.4,
+      0.0,
+      10.8,
+      4.0
+    ]
+  ],
+  "object_xy_m": [
+    9.05,
+    0.8500000000000001
+  ],
+  "max_distance_m": 13.622539674441606,
+  "decisions": [
+    {
+      "k": 1,
+      "from_room": 2,
+      "room": 1,
+      "optimum_room": 4,
+      "regret_m": 0.182,
+      "planned_m": 6.23,
+      "t_decide": 15.316,
+      "t_arrive": 47.248,
+      "nav_ok": true,
+      "outcome": "not here",
+      "camera_saw_target": false,
+      "t_outcome": 55.12
+    },
+    {
+      "k": 2,
+      "from_room": 1,
+      "room": 4,
+      "optimum_room": 4,
+      "regret_m": 0.0,
+      "planned_m": 9.11,
+      "t_decide": 55.12,
+      "t_arrive": 92.58,
+      "nav_ok": true,
+      "outcome": "found",
+      "camera_saw_target": false,
+      "t_outcome": 100.456,
+      "t_still": 101.952
+    }
+  ],
+  "success": true,
+  "planned_m": 15.34,
+  "driven_m": 15.35,
+  "regret_m": 0.182,
+  "nav_failures": 0,
+  "still": "still.png",
+  "frames": 370,
+  "events": [
+    {
+      "t": 15.316,
+      "kind": "start"
+    },
+    {
+      "t": 104.96,
+      "kind": "end"
+    }
+  ],
+  "overhead_camera": {
+    "xyz_m": [
+      5.4,
+      5.0,
+      25.0
+    ],
+    "horizontal_fov": 0.505612583803513
+  }
+}

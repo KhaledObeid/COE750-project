@@ -1,0 +1,9 @@
+=== demo house 200000 07:08:09
+Nav2 active after about 8 s
+runner exit code 0 (log: results/demo/logs/runner_200000.log)
+=== demo house 200001 07:14:25
+Nav2 active after about 8 s
+runner exit code 0 (log: results/demo/logs/runner_200001.log)
+=== demo house 200002 07:17:27
+Nav2 active after about 8 s
+runner exit code 0 (log: results/demo/logs/runner_200002.log)

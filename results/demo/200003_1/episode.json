@@ -1,0 +1,119 @@
+{
+  "label": "hand-picked illustrative example; not part of the Gazebo result rows",
+  "house": 200003,
+  "episode": 1,
+  "rho": 0.4,
+  "kappa": 1.0,
+  "policy": "PPO-Conf (median-validation seed)",
+  "shown_to_robot": {
+    "target": "cell_phone",
+    "start_room": 1,
+    "claimed_room": 0,
+    "c": 0.632,
+    "habit": [
+      0.182,
+      0.273,
+      0.091,
+      0.273,
+      0.182
+    ]
+  },
+  "hidden_from_robot": {
+    "r": 0.632,
+    "object_room": 0,
+    "claim_correct": true
+  },
+  "room_types": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "room_labels": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "rooms_m": [
+    [
+      0.0,
+      0.0,
+      7.4,
+      2.9000000000000004
+    ],
+    [
+      0.0,
+      2.9000000000000004,
+      7.4,
+      7.4
+    ],
+    [
+      7.4,
+      0.0,
+      10.600000000000001,
+      3.4000000000000004
+    ],
+    [
+      7.4,
+      3.4000000000000004,
+      10.600000000000001,
+      10.3
+    ],
+    [
+      0.0,
+      7.4,
+      7.4,
+      10.3
+    ]
+  ],
+  "object_xy_m": [
+    2.25,
+    1.95
+  ],
+  "max_distance_m": 16.54974746830584,
+  "decisions": [
+    {
+      "k": 1,
+      "from_room": 1,
+      "room": 0,
+      "optimum_room": 0,
+      "regret_m": 0.0,
+      "planned_m": 3.7,
+      "t_decide": 15.788,
+      "t_arrive": 35.796,
+      "nav_ok": true,
+      "outcome": "found",
+      "camera_saw_target": true,
+      "t_outcome": 43.676,
+      "t_still": 48.572
+    }
+  ],
+  "success": true,
+  "planned_m": 3.7,
+  "driven_m": 3.68,
+  "regret_m": 0.0,
+  "nav_failures": 0,
+  "still": "still.png",
+  "frames": 155,
+  "events": [
+    {
+      "t": 15.788,
+      "kind": "start"
+    },
+    {
+      "t": 51.58,
+      "kind": "end"
+    }
+  ],
+  "overhead_camera": {
+    "xyz_m": [
+      5.3,
+      5.15,
+      25.0
+    ],
+    "horizontal_fov": 0.49779274160221243
+  }
+}

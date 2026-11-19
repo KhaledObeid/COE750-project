@@ -1,0 +1,11 @@
+[INFO] [1795065459.548090231] [trustmap_runner]: waiting for Nav2 and the ground-truth pose ...
+episode 200002_1 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 4, 'room': 0, 'optimum_room': 0, 'regret_m': 0.0, 'planned_m': 8.3, 't_decide': 14.704, 't_arrive': 50.408, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 58.296}
+  decision 2: {'k': 2, 'from_room': 0, 'room': 1, 'optimum_room': 1, 'regret_m': 0.0, 'planned_m': 5.0, 't_decide': 58.296, 't_arrive': 86.604, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 94.472}
+  decision 3: {'k': 3, 'from_room': 1, 'room': 3, 'optimum_room': 3, 'regret_m': 0.0, 'planned_m': 6.23, 't_decide': 94.472, 't_arrive': 124.392, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': True, 't_outcome': 132.26, 't_still': 134.344}
+wrote /home/ubuntu/COE750-project/results/demo/200002_1 (503 overhead frames, success=True)
+episode 200002_2 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 3, 'room': 1, 'optimum_room': 1, 'regret_m': 0.0, 'planned_m': 6.23, 't_decide': 142.528, 't_arrive': 170.396, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 178.288}
+  decision 2: {'k': 2, 'from_room': 1, 'room': 2, 'optimum_room': 0, 'regret_m': 2.799, 'planned_m': 10.1, 't_decide': 178.288, 't_arrive': 223.348, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 231.244}
+  decision 3: {'k': 3, 'from_room': 2, 'room': 0, 'optimum_room': 0, 'regret_m': 0.0, 'planned_m': 6.27, 't_decide': 231.244, 't_arrive': 259.7, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': True, 't_outcome': 267.572, 't_still': 270.84}
+wrote /home/ubuntu/COE750-project/results/demo/200002_2 (537 overhead frames, success=True)

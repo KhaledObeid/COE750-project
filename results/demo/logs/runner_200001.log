@@ -1,0 +1,8 @@
+[INFO] [1795065277.954033240] [trustmap_runner]: waiting for Nav2 and the ground-truth pose ...
+episode 200001_1 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 2, 'room': 1, 'optimum_room': 4, 'regret_m': 0.182, 'planned_m': 6.23, 't_decide': 15.316, 't_arrive': 47.248, 'nav_ok': True, 'outcome': 'not here', 'camera_saw_target': False, 't_outcome': 55.12}
+  decision 2: {'k': 2, 'from_room': 1, 'room': 4, 'optimum_room': 4, 'regret_m': 0.0, 'planned_m': 9.11, 't_decide': 55.12, 't_arrive': 92.58, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': False, 't_outcome': 100.456, 't_still': 101.952}
+wrote /home/ubuntu/COE750-project/results/demo/200001_1 (370 overhead frames, success=True)
+episode 200001_2 (rho 0.4)
+  decision 1: {'k': 1, 'from_room': 3, 'room': 2, 'optimum_room': 2, 'regret_m': 0.0, 'planned_m': 8.47, 't_decide': 110.192, 't_arrive': 151.5, 'nav_ok': True, 'outcome': 'found', 'camera_saw_target': True, 't_outcome': 159.392, 't_still': 164.588}
+wrote /home/ubuntu/COE750-project/results/demo/200001_2 (242 overhead frames, success=True)

@@ -145,12 +145,14 @@ def panel(info, t):
             continue
         out = dec["outcome"]
         colour = GOOD if out == "found" else BAD if out == "failure" else MUTED
-        out_text = {"found": "FOUND", "not here": "not here",
-                    "failure": "not here: FAILURE after the third search"}[out]
+        out_text = {"found": "FOUND", "not here": "not here", "failure": "not here"}[out]
         d.text((x + 18, y), f"regret of this choice: {dec['regret_m']:.2f} m  ->  ", font=F_SMALL, fill=MUTED)
         w = d.textlength(f"regret of this choice: {dec['regret_m']:.2f} m  ->  ", font=F_SMALL)
-        d.text((x + 18 + w, y - 1), out_text, font=F_HEAD if out != "not here" else F_SMALL, fill=colour)
+        d.text((x + 18 + w, y - 1), out_text, font=F_HEAD if out == "found" else F_SMALL, fill=colour)
         y += 26
+        if out == "failure":
+            d.text((x + 18, y - 4), "FAILURE after the third search", font=F_HEAD, fill=BAD)
+            y += 24
         status = "deciding ..." if out == "not here" else ""
 
     end = info["events"][-1]["t"]

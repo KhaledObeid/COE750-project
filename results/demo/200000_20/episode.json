@@ -1,0 +1,146 @@
+{
+  "label": "hand-picked illustrative example; not part of the Gazebo result rows",
+  "house": 200000,
+  "episode": 20,
+  "rho": 0.4,
+  "kappa": 1.0,
+  "policy": "PPO-Conf (median-validation seed)",
+  "shown_to_robot": {
+    "target": "alarm_clock",
+    "start_room": 2,
+    "claimed_room": 3,
+    "c": 0.526,
+    "habit": [
+      0.048,
+      0.095,
+      0.048,
+      0.762,
+      0.048
+    ]
+  },
+  "hidden_from_robot": {
+    "r": 0.526,
+    "object_room": 1,
+    "claim_correct": false
+  },
+  "room_types": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "room_labels": [
+    "kitchen",
+    "living",
+    "bathroom",
+    "bedroom",
+    "dining"
+  ],
+  "rooms_m": [
+    [
+      2.5,
+      0.0,
+      4.9,
+      7.6000000000000005
+    ],
+    [
+      4.9,
+      0.0,
+      8.6,
+      7.6000000000000005
+    ],
+    [
+      0.0,
+      7.6000000000000005,
+      2.9000000000000004,
+      10.9
+    ],
+    [
+      2.9000000000000004,
+      7.6000000000000005,
+      8.6,
+      10.9
+    ],
+    [
+      0.0,
+      0.0,
+      2.5,
+      7.6000000000000005
+    ]
+  ],
+  "object_xy_m": [
+    5.8500000000000005,
+    3.25
+  ],
+  "max_distance_m": 14.342640687119282,
+  "decisions": [
+    {
+      "k": 1,
+      "from_room": 2,
+      "room": 4,
+      "optimum_room": 0,
+      "regret_m": 0.701,
+      "planned_m": 5.58,
+      "t_decide": 255.984,
+      "t_arrive": 282.804,
+      "nav_ok": true,
+      "outcome": "not here",
+      "camera_saw_target": false,
+      "t_outcome": 290.692
+    },
+    {
+      "k": 2,
+      "from_room": 4,
+      "room": 0,
+      "optimum_room": 1,
+      "regret_m": 1.077,
+      "planned_m": 2.4,
+      "t_decide": 290.692,
+      "t_arrive": 301.6,
+      "nav_ok": true,
+      "outcome": "not here",
+      "camera_saw_target": false,
+      "t_outcome": 309.476
+    },
+    {
+      "k": 3,
+      "from_room": 0,
+      "room": 3,
+      "optimum_room": 3,
+      "regret_m": 0.0,
+      "planned_m": 7.59,
+      "t_decide": 309.476,
+      "t_arrive": 350.352,
+      "nav_ok": true,
+      "outcome": "failure",
+      "camera_saw_target": false,
+      "t_outcome": 358.24
+    }
+  ],
+  "success": false,
+  "planned_m": 15.58,
+  "driven_m": 15.52,
+  "regret_m": 1.778,
+  "nav_failures": 0,
+  "still": null,
+  "frames": 433,
+  "events": [
+    {
+      "t": 255.984,
+      "kind": "start"
+    },
+    {
+      "t": 361.244,
+      "kind": "end"
+    }
+  ],
+  "overhead_camera": {
+    "xyz_m": [
+      4.3,
+      5.45,
+      25.0
+    ],
+    "horizontal_fov": 0.5095166048717897
+  }
+}
