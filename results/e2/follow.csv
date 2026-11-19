@@ -1,0 +1,238 @@
+panel,method,bin_center,follow_rate,ci95,episodes
+a,PPO-Conf,-0.875,0.0,0.0,47
+a,PPO-Conf,-0.825,0.0,0.0,101
+a,PPO-Conf,-0.775,0.0,0.0,168
+a,PPO-Conf,-0.725,0.0,0.0,250
+a,PPO-Conf,-0.675,0.0007,0.0021,268
+a,PPO-Conf,-0.625,0.0,0.0,356
+a,PPO-Conf,-0.575,0.0004,0.0012,451
+a,PPO-Conf,-0.525,0.0087,0.0055,412
+a,PPO-Conf,-0.475,0.0026,0.0035,457
+a,PPO-Conf,-0.425,0.0152,0.0134,564
+a,PPO-Conf,-0.375,0.0328,0.0159,561
+a,PPO-Conf,-0.325,0.0725,0.0231,599
+a,PPO-Conf,-0.275,0.108,0.0346,650
+a,PPO-Conf,-0.225,0.1765,0.0243,733
+a,PPO-Conf,-0.175,0.2087,0.0317,877
+a,PPO-Conf,-0.125,0.2888,0.0393,820
+a,PPO-Conf,-0.075,0.4325,0.0328,898
+a,PPO-Conf,-0.025,0.5532,0.0316,932
+a,PPO-Conf,0.025,0.7128,0.027,982
+a,PPO-Conf,0.075,0.8361,0.014,1064
+a,PPO-Conf,0.125,0.941,0.0138,1184
+a,PPO-Conf,0.175,0.9791,0.0078,1261
+a,PPO-Conf,0.225,0.9945,0.0014,987
+a,PPO-Conf,0.275,0.9972,0.0036,925
+a,PPO-Conf,0.325,0.9992,0.0009,771
+a,PPO-Conf,0.375,0.9995,0.0009,774
+a,PPO-Conf,0.425,1.0,0.0,771
+a,PPO-Conf,0.475,1.0,0.0,672
+a,PPO-Conf,0.525,1.0,0.0,632
+a,PPO-Conf,0.575,1.0,0.0,647
+a,PPO-Conf,0.625,1.0,0.0,564
+a,PPO-Conf,0.675,1.0,0.0,783
+a,PPO-Conf,0.725,1.0,0.0,650
+a,PPO-Conf,0.775,1.0,0.0,301
+a,PPO-Conf,0.825,1.0,0.0,188
+a,PPO-Conf,0.875,1.0,0.0,239
+a,PPO-Conf,0.925,1.0,0.0,357
+a,PPO-Conf,0.975,1.0,0.0,178
+c,PPO-Conf,0.1,0.0786,0.0063,3268
+c,PPO-Conf,0.3,0.2918,0.0096,4562
+c,PPO-Conf,0.5,0.5719,0.0214,4408
+c,PPO-Conf,0.7,0.8492,0.017,4486
+c,PPO-Conf,0.9,0.988,0.0033,8276
+a,PPO-Binary,-0.875,0.0213,0.0458,47
+a,PPO-Binary,-0.825,0.0851,0.0795,101
+a,PPO-Binary,-0.775,0.1369,0.0555,168
+a,PPO-Binary,-0.725,0.1488,0.0772,250
+a,PPO-Binary,-0.675,0.2045,0.0292,268
+a,PPO-Binary,-0.625,0.2399,0.0629,356
+a,PPO-Binary,-0.575,0.2967,0.0666,451
+a,PPO-Binary,-0.525,0.3417,0.0626,412
+a,PPO-Binary,-0.475,0.3309,0.0731,457
+a,PPO-Binary,-0.425,0.3688,0.0521,564
+a,PPO-Binary,-0.375,0.4029,0.0649,561
+a,PPO-Binary,-0.325,0.4437,0.0621,599
+a,PPO-Binary,-0.275,0.5258,0.0575,650
+a,PPO-Binary,-0.225,0.5937,0.0359,733
+a,PPO-Binary,-0.175,0.6153,0.0379,877
+a,PPO-Binary,-0.125,0.6129,0.0414,820
+a,PPO-Binary,-0.075,0.6463,0.0355,898
+a,PPO-Binary,-0.025,0.6633,0.0482,932
+a,PPO-Binary,0.025,0.6723,0.0356,982
+a,PPO-Binary,0.075,0.638,0.0309,1064
+a,PPO-Binary,0.125,0.5775,0.0337,1184
+a,PPO-Binary,0.175,0.6298,0.0392,1261
+a,PPO-Binary,0.225,0.7441,0.0383,987
+a,PPO-Binary,0.275,0.8089,0.0313,925
+a,PPO-Binary,0.325,0.8576,0.0174,771
+a,PPO-Binary,0.375,0.8406,0.0283,774
+a,PPO-Binary,0.425,0.8508,0.0395,771
+a,PPO-Binary,0.475,0.9333,0.0202,672
+a,PPO-Binary,0.525,0.9579,0.0194,632
+a,PPO-Binary,0.575,0.9756,0.0182,647
+a,PPO-Binary,0.625,0.9794,0.0127,564
+a,PPO-Binary,0.675,0.9964,0.0034,783
+a,PPO-Binary,0.725,0.9994,0.001,650
+a,PPO-Binary,0.775,1.0,0.0,301
+a,PPO-Binary,0.825,0.9979,0.0036,188
+a,PPO-Binary,0.875,0.9975,0.0046,239
+a,PPO-Binary,0.925,1.0,0.0,357
+a,PPO-Binary,0.975,1.0,0.0,178
+c,PPO-Binary,0.1,0.6685,0.0362,3268
+c,PPO-Binary,0.3,0.6707,0.0376,4562
+c,PPO-Binary,0.5,0.6627,0.0357,4408
+c,PPO-Binary,0.7,0.6758,0.0355,4486
+c,PPO-Binary,0.9,0.6706,0.0348,8276
+a,Greedy map follower,-0.875,1.0,0.0,47
+a,Greedy map follower,-0.825,1.0,0.0,101
+a,Greedy map follower,-0.775,1.0,0.0,168
+a,Greedy map follower,-0.725,1.0,0.0,250
+a,Greedy map follower,-0.675,1.0,0.0,268
+a,Greedy map follower,-0.625,1.0,0.0,356
+a,Greedy map follower,-0.575,1.0,0.0,451
+a,Greedy map follower,-0.525,1.0,0.0,412
+a,Greedy map follower,-0.475,1.0,0.0,457
+a,Greedy map follower,-0.425,1.0,0.0,564
+a,Greedy map follower,-0.375,1.0,0.0,561
+a,Greedy map follower,-0.325,1.0,0.0,599
+a,Greedy map follower,-0.275,1.0,0.0,650
+a,Greedy map follower,-0.225,1.0,0.0,733
+a,Greedy map follower,-0.175,1.0,0.0,877
+a,Greedy map follower,-0.125,1.0,0.0,820
+a,Greedy map follower,-0.075,1.0,0.0,898
+a,Greedy map follower,-0.025,1.0,0.0,932
+a,Greedy map follower,0.025,1.0,0.0,982
+a,Greedy map follower,0.075,1.0,0.0,1064
+a,Greedy map follower,0.125,1.0,0.0,1184
+a,Greedy map follower,0.175,1.0,0.0,1261
+a,Greedy map follower,0.225,1.0,0.0,987
+a,Greedy map follower,0.275,1.0,0.0,925
+a,Greedy map follower,0.325,1.0,0.0,771
+a,Greedy map follower,0.375,1.0,0.0,774
+a,Greedy map follower,0.425,1.0,0.0,771
+a,Greedy map follower,0.475,1.0,0.0,672
+a,Greedy map follower,0.525,1.0,0.0,632
+a,Greedy map follower,0.575,1.0,0.0,647
+a,Greedy map follower,0.625,1.0,0.0,564
+a,Greedy map follower,0.675,1.0,0.0,783
+a,Greedy map follower,0.725,1.0,0.0,650
+a,Greedy map follower,0.775,1.0,0.0,301
+a,Greedy map follower,0.825,1.0,0.0,188
+a,Greedy map follower,0.875,1.0,0.0,239
+a,Greedy map follower,0.925,1.0,0.0,357
+a,Greedy map follower,0.975,1.0,0.0,178
+c,Greedy map follower,0.1,1.0,0.0,3268
+c,Greedy map follower,0.3,1.0,0.0,4562
+c,Greedy map follower,0.5,1.0,0.0,4408
+c,Greedy map follower,0.7,1.0,0.0,4486
+c,Greedy map follower,0.9,1.0,0.0,8276
+a,Optimum,-0.875,0.0,0.0,47
+a,Optimum,-0.825,0.0,0.0,101
+a,Optimum,-0.775,0.0,0.0,168
+a,Optimum,-0.725,0.0,0.0,250
+a,Optimum,-0.675,0.0,0.0,268
+a,Optimum,-0.625,0.0,0.0,356
+a,Optimum,-0.575,0.0,0.0,451
+a,Optimum,-0.525,0.0,0.0,412
+a,Optimum,-0.475,0.0,0.0,457
+a,Optimum,-0.425,0.0,0.0,564
+a,Optimum,-0.375,0.0,0.0,561
+a,Optimum,-0.325,0.0,0.0,599
+a,Optimum,-0.275,0.0,0.0,650
+a,Optimum,-0.225,0.0,0.0,733
+a,Optimum,-0.175,0.0,0.0,877
+a,Optimum,-0.125,0.0,0.0,820
+a,Optimum,-0.075,0.0,0.0,898
+a,Optimum,-0.025,0.0,0.0,932
+a,Optimum,0.025,1.0,0.0,982
+a,Optimum,0.075,1.0,0.0,1064
+a,Optimum,0.125,1.0,0.0,1184
+a,Optimum,0.175,1.0,0.0,1261
+a,Optimum,0.225,1.0,0.0,987
+a,Optimum,0.275,1.0,0.0,925
+a,Optimum,0.325,1.0,0.0,771
+a,Optimum,0.375,1.0,0.0,774
+a,Optimum,0.425,1.0,0.0,771
+a,Optimum,0.475,1.0,0.0,672
+a,Optimum,0.525,1.0,0.0,632
+a,Optimum,0.575,1.0,0.0,647
+a,Optimum,0.625,1.0,0.0,564
+a,Optimum,0.675,1.0,0.0,783
+a,Optimum,0.725,1.0,0.0,650
+a,Optimum,0.775,1.0,0.0,301
+a,Optimum,0.825,1.0,0.0,188
+a,Optimum,0.875,1.0,0.0,239
+a,Optimum,0.925,1.0,0.0,357
+a,Optimum,0.975,1.0,0.0,178
+c,Optimum,0.1,0.1108,0.0,3268
+c,Optimum,0.3,0.2826,0.0,4562
+c,Optimum,0.5,0.4966,0.0,4408
+c,Optimum,0.7,0.6511,0.0,4486
+c,Optimum,0.9,0.9261,0.0,8276
+b-near,PPO-Conf,-0.575,0.0,0.0,53
+b-near,PPO-Conf,-0.525,0.0519,0.0341,54
+b-near,PPO-Conf,-0.475,0.0,0.0,56
+b-near,PPO-Conf,-0.425,0.0381,0.0303,84
+b-near,PPO-Conf,-0.375,0.0577,0.0114,97
+b-near,PPO-Conf,-0.325,0.0603,0.0076,116
+b-near,PPO-Conf,-0.275,0.0721,0.0227,208
+b-near,PPO-Conf,-0.225,0.0828,0.018,261
+b-near,PPO-Conf,-0.175,0.0851,0.0154,362
+b-near,PPO-Conf,-0.125,0.1512,0.023,344
+b-near,PPO-Conf,-0.075,0.2741,0.0306,375
+b-near,PPO-Conf,-0.025,0.4154,0.0282,428
+b-near,PPO-Conf,0.025,0.6038,0.0251,480
+b-near,PPO-Conf,0.075,0.7831,0.0157,497
+b-near,PPO-Conf,0.125,0.9066,0.0303,473
+b-near,PPO-Conf,0.175,0.9664,0.0132,565
+b-near,PPO-Conf,0.225,0.9949,0.0029,554
+b-near,PPO-Conf,0.275,0.9988,0.0032,513
+b-near,PPO-Conf,0.325,1.0,0.0,505
+b-near,PPO-Conf,0.375,1.0,0.0,497
+b-near,PPO-Conf,0.425,1.0,0.0,492
+b-near,PPO-Conf,0.475,1.0,0.0,486
+b-near,PPO-Conf,0.525,1.0,0.0,505
+b-near,PPO-Conf,0.575,1.0,0.0,511
+b-near,PPO-Conf,0.625,1.0,0.0,450
+b-near,PPO-Conf,0.675,1.0,0.0,689
+b-near,PPO-Conf,0.725,1.0,0.0,584
+b-near,PPO-Conf,0.775,1.0,0.0,280
+b-near,PPO-Conf,0.825,1.0,0.0,182
+b-near,PPO-Conf,0.875,1.0,0.0,225
+b-near,PPO-Conf,0.925,1.0,0.0,353
+b-near,PPO-Conf,0.975,1.0,0.0,176
+b-far,PPO-Conf,-0.875,0.0,0.0,47
+b-far,PPO-Conf,-0.825,0.0,0.0,101
+b-far,PPO-Conf,-0.775,0.0,0.0,159
+b-far,PPO-Conf,-0.725,0.0,0.0,242
+b-far,PPO-Conf,-0.675,0.0,0.0,249
+b-far,PPO-Conf,-0.625,0.0,0.0,330
+b-far,PPO-Conf,-0.575,0.0005,0.0014,398
+b-far,PPO-Conf,-0.525,0.0022,0.0016,358
+b-far,PPO-Conf,-0.475,0.003,0.004,401
+b-far,PPO-Conf,-0.425,0.0112,0.0111,480
+b-far,PPO-Conf,-0.375,0.0276,0.0173,464
+b-far,PPO-Conf,-0.325,0.0754,0.0269,483
+b-far,PPO-Conf,-0.275,0.1249,0.0436,442
+b-far,PPO-Conf,-0.225,0.2284,0.0301,472
+b-far,PPO-Conf,-0.175,0.2955,0.044,515
+b-far,PPO-Conf,-0.125,0.3882,0.0525,476
+b-far,PPO-Conf,-0.075,0.5461,0.0365,523
+b-far,PPO-Conf,-0.025,0.6702,0.0419,504
+b-far,PPO-Conf,0.025,0.8171,0.0376,502
+b-far,PPO-Conf,0.075,0.8825,0.0218,567
+b-far,PPO-Conf,0.125,0.964,0.0073,711
+b-far,PPO-Conf,0.175,0.9894,0.0053,696
+b-far,PPO-Conf,0.225,0.994,0.0026,433
+b-far,PPO-Conf,0.275,0.9951,0.006,412
+b-far,PPO-Conf,0.325,0.9977,0.0026,266
+b-far,PPO-Conf,0.375,0.9986,0.0025,277
+b-far,PPO-Conf,0.425,1.0,0.0,279
+b-far,PPO-Conf,0.475,1.0,0.0,186
+b-far,PPO-Conf,0.525,1.0,0.0,127
+b-far,PPO-Conf,0.575,1.0,0.0,136
+b-far,PPO-Conf,0.625,1.0,0.0,114
+b-far,PPO-Conf,0.675,1.0,0.0,94
+b-far,PPO-Conf,0.725,1.0,0.0,66
