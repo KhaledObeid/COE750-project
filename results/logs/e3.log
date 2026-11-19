@@ -1,0 +1,16 @@
+e3/test_kappa1: 10 method runs x 4 rho values, 4 processes
+  saved results/e3/test_kappa1_rho0.2.npz
+  saved results/e3/test_kappa1_rho0.4.npz
+  saved results/e3/test_kappa1_rho0.6.npz
+  saved results/e3/test_kappa1_rho0.8.npz
+e3/test_kappa3: 10 method runs x 4 rho values, 4 processes
+  saved results/e3/test_kappa3_rho0.2.npz
+  saved results/e3/test_kappa3_rho0.4.npz
+  saved results/e3/test_kappa3_rho0.6.npz
+  saved results/e3/test_kappa3_rho0.8.npz
+  wrote results/e3/table.csv
+  wrote results/figures/e3_calibration.pdf/.png
+
+real	3m23.393s
+user	0m3.716s
+sys	0m0.215s

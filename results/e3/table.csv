@@ -1,0 +1,33 @@
+test_kappa,rho,method,seeds,regret_m,regret_m_ci95,success,success_ci95
+1.0,0.2,PPO-Conf trained kappa 1,5,0.2025,0.0152,0.9687,0.0027
+1.0,0.2,PPO-Conf trained kappa 3,3,0.2178,0.026,0.9691,0.0028
+1.0,0.2,Bayes-nominal,0,0.0,0.0,0.9708,0.0
+1.0,0.2,Optimum,0,0.0,0.0,0.9708,0.0
+1.0,0.4,PPO-Conf trained kappa 1,5,0.4308,0.036,0.9276,0.0028
+1.0,0.4,PPO-Conf trained kappa 3,3,0.4401,0.0226,0.9304,0.0038
+1.0,0.4,Bayes-nominal,0,0.0,0.0,0.9332,0.0
+1.0,0.4,Optimum,0,0.0,0.0,0.9332,0.0
+1.0,0.6,PPO-Conf trained kappa 1,5,0.5064,0.058,0.9016,0.0075
+1.0,0.6,PPO-Conf trained kappa 3,3,0.6277,0.0252,0.9051,0.0054
+1.0,0.6,Bayes-nominal,0,0.0,0.0,0.9118,0.0
+1.0,0.6,Optimum,0,0.0,0.0,0.9118,0.0
+1.0,0.8,PPO-Conf trained kappa 1,5,0.6459,0.07,0.88,0.0075
+1.0,0.8,PPO-Conf trained kappa 3,3,1.1442,0.0725,0.8743,0.0058
+1.0,0.8,Bayes-nominal,0,0.0,0.0,0.9016,0.0
+1.0,0.8,Optimum,0,0.0,0.0,0.9016,0.0
+3.0,0.2,PPO-Conf trained kappa 1,5,0.2798,0.0164,0.969,0.0013
+3.0,0.2,PPO-Conf trained kappa 3,3,0.2181,0.0287,0.9694,0.0039
+3.0,0.2,Bayes-nominal,0,0.1326,0.0,0.9708,0.0
+3.0,0.2,Optimum,0,0.0,0.0,0.9708,0.0
+3.0,0.4,PPO-Conf trained kappa 1,5,0.6812,0.0445,0.924,0.0025
+3.0,0.4,PPO-Conf trained kappa 3,3,0.4658,0.0318,0.9299,0.0023
+3.0,0.4,Bayes-nominal,0,0.3122,0.0,0.9248,0.0
+3.0,0.4,Optimum,0,0.0,0.0,0.9332,0.0
+3.0,0.6,PPO-Conf trained kappa 1,5,1.0505,0.0659,0.8851,0.0055
+3.0,0.6,PPO-Conf trained kappa 3,3,0.5395,0.0343,0.9019,0.0117
+3.0,0.6,Bayes-nominal,0,0.9592,0.0,0.8728,0.0
+3.0,0.6,Optimum,0,0.0,0.0,0.9118,0.0
+3.0,0.8,PPO-Conf trained kappa 1,5,1.1109,0.0601,0.8718,0.0081
+3.0,0.8,PPO-Conf trained kappa 3,3,0.8756,0.013,0.8695,0.0074
+3.0,0.8,Bayes-nominal,0,1.2706,0.0,0.8612,0.0
+3.0,0.8,Optimum,0,0.0,0.0,0.9016,0.0
