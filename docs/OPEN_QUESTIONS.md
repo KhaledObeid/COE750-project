@@ -6,13 +6,17 @@ Format for each entry: date, file and function affected, the question, the optio
 
 ## Open
 
+(none)
+
+## Resolved
+
 ### Q10 (2026-11-19): what the lambda sensitivity row and the uniform ablation row train
 
 - Affects: `trustmap/train_all.py` (`GROUPS`), `trustmap/e1.py` (`CONDITIONS`, `methods_for`).
 - Question: 7d lists "3 seeds for each extra row (PPO-Conf at kappa = 3, the uniform-placement ablation, the lambda sensitivity row), about 21 runs". 15 + 3 + 3 + 3 is 24, while 15 + 3 + 3 is exactly 21, which suggests the lambda row trains nothing. Two things are unclear. (a) The lambda row (3c: "an E1 sensitivity row varying lambda, for example 0, 0.5, 1"): either PPO-Conf is trained at another lambda (which one, or both 0 and 1, i.e. 3 or 6 runs), or the main policies trained at lambda = 0.5 are only tested at lambda = 0 and 1 (no training; this tests robustness to a changed error model rather than the conclusion in a different world). (b) The uniform ablation (3b): only PPO-Conf trained and tested with `placement = uniform` (3 runs), or also PPO-NoPrior so that the Conf minus NoPrior gap can be shown without commonsense.
 - Implemented now (placeholders): `train_all` trains the uniform row as PPO-Conf only (3 seeds) and has no lambda group; `python -m trustmap.e1 --condition lam0 lam1` tests the main policies at lambda 0 and 1 (evaluation only), and is not run by default.
 - Recommendation: (a) evaluation-only at lambda 0 and 1 for every main variant, which matches "about 21 runs" and needs no training; (b) PPO-Conf only, as implemented.
-- Status: open.
+- Status: resolved 2026-11-19 (DECISIONS.md, answers to Q10-Q12): (a) the lambda row is evaluation-only, the main policies of every variant tested at lambda 0 and 1; (b) the uniform row trains PPO-Conf only (3 seeds). 21 runs in total. Code already matched; comments updated.
 
 ### Q11 (2026-11-19): Gazebo choices the 9e lock does not cover
 
@@ -24,16 +28,14 @@ Format for each entry: date, file and function affected, the question, the optio
   4. When Nav2 fails a goal twice, the robot is moved to the viewpoint so the decision episode can finish; the failure counts only in the end-to-end row ("Cost of a decision").
   5. End-to-end success = decision success, no navigation failure, and the virtual camera saw the target at the robot's true pose.
 - Recommendation: accept 1-5.
-- Status: open.
+- Status: resolved 2026-11-19 (DECISIONS.md, answers to Q10-Q12): 1-5 accepted as implemented (ground-truth pose, no AMCL; houses 200,000 and 200,001; the listed Nav2 settings and 120 s goal timeout; move to the viewpoint after two failed attempts; end-to-end success definition).
 
 ### Q12 (2026-11-19): small analysis choices in E1 and E2
 
 - Affects: `trustmap/e1.py`, `trustmap/e2.py`, `trustmap/optimum.py` `confidence_threshold`.
 - Choices made: (1) E2 pools the E1 test episodes of all five rho values (25,000 at kappa = 1); (2) bins of c - c* are 0.05 wide over [-1, 1], and bins with fewer than 30 episodes are not drawn; (3) panel (b) splits PPO-Conf's episodes at the median scaled distance from the start room to the claimed room (near / far) to show the jump does not depend on distance; (4) H4 pairs PPO-NoPrior seed k with PPO-Conf seed k and gives a t-interval over the 5 paired differences; (5) episodes where the claim only ties at r = 1 (a room lies exactly on a shortest path to the claimed room, so searching it first is free) count as "no c*", like episodes where the optimum never switches; (6) at rho = 0, ties between the claimed room and such an on-the-way room are broken by room index in value iteration, so the optimum's and Bayes-nominal's first-decision success at rho = 0 can be slightly below 1 with zero regret.
 - Recommendation: accept 1-6.
-- Status: open.
-
-## Resolved
+- Status: resolved 2026-11-19 (DECISIONS.md, answers to Q10-Q12): 1-6 accepted as implemented.
 
 ### Q7 (2026-11-18): training and evaluation settings the code needs before real runs (Point 9)
 

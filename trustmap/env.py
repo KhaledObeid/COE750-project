@@ -34,8 +34,8 @@ class TrustMapEnv(gym.Env):
                targets, decision cap).
     variant:   which inputs the agent sees (4c).
     rho_range: if given as (low, high), rho is drawn uniformly from it at
-               every reset instead of using config.rho. PLACEHOLDER: the
-               training mix of rho belongs to Point 9, not locked yet.
+               every reset instead of using config.rho. Training uses
+               (0, 0.8), fresh every episode (9a).
     """
 
     metadata = {"render_modes": []}

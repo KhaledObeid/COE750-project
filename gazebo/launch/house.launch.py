@@ -8,7 +8,7 @@ Export the house first: python -m trustmap.gazebo_export 200000
 
 Frames: map = odom = the Gazebo world frame (the shared grid's coordinates).
 The robot's pose comes from Gazebo's OdometryPublisher (ground truth), which
-publishes odom -> base_link; there is no AMCL (OPEN_QUESTIONS Q11).
+publishes odom -> base_link; there is no AMCL (Q11.1).
 """
 
 import os

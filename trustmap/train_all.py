@@ -10,8 +10,8 @@ Groups:
 
 A run whose final_model.zip already exists is skipped, so the command can be
 stopped and started again. Each run writes its log to runs/<name>/train.log.
-Which policies the lambda sensitivity row needs is still open
-(OPEN_QUESTIONS Q10), so it is not a group yet.
+The lambda sensitivity row trains nothing (Q10a: the main policies are tested
+at lambda 0 and 1 in trustmap.e1), so the total is 21 runs.
 """
 
 import argparse

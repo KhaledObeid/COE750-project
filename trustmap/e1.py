@@ -8,10 +8,12 @@ Conditions:
            optimum (reference), PPO-Conf, PPO-Binary and PPO-NoPrior (5 seeds each).
            The records also hold c* of every episode, used by E2.
   uniform  the uniform-placement ablation row (3b): world with no commonsense,
-           baselines plus PPO-Conf trained with placement = uniform (3 seeds).
-  lam0, lam1  lambda sensitivity row (3c). PLACEHOLDER (OPEN_QUESTIONS Q10):
-           which policies this row trains is not decided; for now the main
-           policies are tested at lambda 0 and 1. Run only on request.
+           baselines plus PPO-Conf trained with placement = uniform (3 seeds;
+           PPO-Conf only, Q10b).
+  lam0, lam1  lambda sensitivity row (3c, Q10a): evaluation only. The main
+           policies trained at lambda 0.5 (all three variants, 5 seeds) are
+           tested at lambda 0 and 1; nothing is trained for this row.
+           Run with --condition lam0 lam1.
 
 Outputs (results/e1/): one records file per condition and rho, table.csv
 (mean and 95% half-width per method, rho and metric), h4.csv; figures
