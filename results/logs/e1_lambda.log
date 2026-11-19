@@ -1,0 +1,16 @@
+e1/lam0: 20 method runs x 5 rho values, 5 processes
+  saved results/e1/lam0_rho0.npz
+  saved results/e1/lam0_rho0.6.npz
+  saved results/e1/lam0_rho0.4.npz
+  saved results/e1/lam0_rho0.2.npz
+  saved results/e1/lam0_rho0.8.npz
+e1/lam1: 20 method runs x 5 rho values, 5 processes
+  saved results/e1/lam1_rho0.npz
+  saved results/e1/lam1_rho0.2.npz
+  saved results/e1/lam1_rho0.4.npz
+  saved results/e1/lam1_rho0.6.npz
+  saved results/e1/lam1_rho0.8.npz
+  wrote results/e1/table.csv
+  wrote results/e1/h4.csv
+  wrote results/figures/e1_regret.pdf/.png
+  wrote results/figures/h4_habit_gap.pdf/.png
